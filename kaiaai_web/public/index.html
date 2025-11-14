@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebRTC demo</title>
+    <style>
+    button {
+        padding: 8px 16px;
+    }
+
+    pre {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    video {
+        width: 100%;
+    }
+
+    .option {
+        margin-bottom: 8px;
+    }
+
+    #media {
+        max-width: 1280px;
+    }
+    </style>
+</head>
+<body>
+<canvas id="face-canvas"></canvas>
+<br />
+<input id="webrtc_controls_visibility" type="checkbox" onchange="toggle_vis('webrtc_controls')"/>
+<label for="webrtc_controls_visibility">Show WebRTC controls</label>
+<button id="start" onclick="start()">Start Webcam</button>
+<button id="stop" style="display: none" onclick="stop()">Stop Webcam</button>
+
+<div id="webrtc_controls" style="display: none">
+<div id="status">status here</div>
+
+<h2>WebRTC Options</h2>
+<div class="option">
+    <input id="use-datachannel" checked="checked" type="checkbox"/>
+    <label for="use-datachannel">Use datachannel</label>
+    <select id="datachannel-parameters">
+        <option value='{"ordered": true}'>Ordered, reliable</option>
+        <option value='{"ordered": false, "maxRetransmits": 0}'>Unordered, no retransmissions</option>
+        <option value='{"ordered": false, "maxPacketLifetime": 500}'>Unordered, 500ms lifetime</option>
+    </select>
+</div>
+<div class="option">
+    <input id="use-audio" checked="checked" type="checkbox"/>
+    <label for="use-audio">Use audio</label>
+    <select id="audio-input">
+        <option value="" selected>Default device</option>
+    </select>
+    <select id="audio-codec">
+        <option value="default" selected>Default codecs</option>
+        <option value="opus/48000/2">Opus</option>
+        <option value="PCMU/8000">PCMU</option>
+        <option value="PCMA/8000">PCMA</option>
+    </select>
+</div>
+<div class="option">
+    <input id="use-video" checked="checked" type="checkbox"/>
+    <label for="use-video">Use video</label>
+    <select id="video-input">
+        <option value="" selected>Default device</option>
+    </select>
+    <select id="video-resolution">
+        <option value="" selected>Default resolution</option>
+        <option value="320x240">320x240</option>
+        <option value="640x480">640x480</option>
+        <option value="960x540">960x540</option>
+        <option value="1280x720">1280x720</option>
+    </select>
+    <select id="video-frame-rate">
+        <option value="" selected>Default frame rate</option>
+        <option value="15">15</option>
+        <option value="10">10</option>
+        <option value="5">5</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+    </select>
+    <select id="video-transform">
+        <option value="none" selected>No transform</option>
+        <option value="edges">Edge detection</option>
+        <option value="cartoon">Cartoon effect</option>
+        <option value="rotate">Rotate</option>
+    </select>
+    <select id="video-codec">
+        <option value="default" selected>Default codecs</option>
+        <option value="VP8/90000">VP8</option>
+        <option value="H264/90000">H264</option>
+    </select>
+</div>
+<div class="option">
+    <input id="use-stun" type="checkbox"/>
+    <label for="use-stun">Use STUN server</label>
+</div>
+
+<h2>State</h2>
+<p>
+    ICE gathering state: <span id="ice-gathering-state"></span>
+</p>
+<p>
+    ICE connection state: <span id="ice-connection-state"></span>
+</p>
+<p>
+    Signaling state: <span id="signaling-state"></span>
+</p>
+
+<div id="media" style="display: none">
+    <h2>Media</h2>
+
+    <audio id="audio" autoplay="true"></audio>
+    <video id="video" autoplay="true" playsinline="true"></video>
+</div>
+
+<h2>Data channel</h2>
+<pre id="data-channel" style="height: 200px;"></pre>
+
+<h2>SDP</h2>
+
+<h3>Offer</h3>
+<pre id="offer-sdp"></pre>
+
+<h3>Answer</h3>
+<pre id="answer-sdp"></pre>
+</div>
+
+<script src="/js/client.js"></script>
+<!-- script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.20/fabric.min.js"></script -->
+<!-- script src="https://cdn.jsdelivr.net/npm/kaia-face.js@0.1.0/dist/kaia-face.min.js"></script -->
+<script src="/js/fabric.min.js"></script>
+<script src="/js/kaia-face.min.js"></script>
+  <script>
+    var face;
+    var myTimer;
+    var timerCntMax = 8;
+    var timerCnt = timerCntMax;
+    var gazeRange = 0.2;
+    var seed = 6;
+    var settings = {};
+    var fromsyn = {};
+    var exprName;
+    var s;
+
+    function random() {
+        seed = (seed * 9301 + 49297) % 233280;
+        var x = seed / 233280;
+        return x - Math.floor(x);
+    }
+
+    var exprOrig = ["annoyed", "anxious", "apologetic", "awkward", "blinking", "bored", "crying",
+      "default", "determined", "embarrased", "evil", "excited", "exhausted", "flustered", "furious",
+      "giggle", "happy", "in-love", "mischievous", "realized-something", "sad", "sassy", "scared",
+      "shocked", "snoozing", "starstruck", "stuck-up", "thinking", "tired", "upset", "winking",
+      "wow"];
+
+    var exprNames = exprOrig.concat(["wow-synonym", "default-synonym", "annoyed-synonym", "sad-synonym",
+      "default-synonym", "default-synonym2", "default-synonym3", "default-synonym4"]);
+
+    var animEffNames = ["swoosh", "road-runner", "splat", "jelly", "bounce"];
+    var animNames = ["wink","widen","eye-roll","tear-drop","blinking","fluctuating","fluctuating-upper","twitching-lower","snoozing"];
+
+    function randomInt(min,max) { return Math.floor(random()*(max-min+1)+min); }
+    function randomFloat(min,max) { return random()*(max-min)+min; }
+
+    function onTimer() {
+      switch(timerCnt) {
+        case 0:
+          timerCnt = timerCntMax+1;
+          exprName = exprNames[randomInt(0, exprNames.length-1)];
+          s = settings[fromsyn[exprName]];
+          console.log(exprName + ' = ' + '(' + s.effect + ',' + s.animation + ',' + s.gaze_speed + ')');
+          face.setExpression(exprName);
+          break;
+        case 3:
+          face.unsetGazeDirection();      
+          console.log('unsetGazeDirection()');
+          break;
+
+        case 5:
+          let exprName3 = exprNames[randomInt(0, exprNames.length-1)];
+          let animName = animNames[randomInt(0, animEffNames.length-1)];
+          if (random() > 0.33) {
+            face.setAnimation(exprName3,animName,{enabled:true});
+            console.log('setAnimation(' + exprName3 + ',' + animName + ')');
+            settings[fromsyn[exprName3]].animation = animName;
+          } else {
+            face.unsetAnimation(exprName3,true);
+            console.log('unsetAnimation(' + exprName3 + ',true)');
+            settings[fromsyn[exprName3]].animation = '';
+          }
+
+          let exprName2 = exprNames[randomInt(0, exprNames.length-1)];
+          let animEffName = animEffNames[randomInt(0, animEffNames.length-1)];
+          if (random() > 0.33) {
+            face.setAnimationEffect(exprName2,animEffName,{enabled:true});
+            console.log('setAnimationEffect(' + exprName2 + ',' + animEffName + ')');
+            settings[fromsyn[exprName2]].effect = animEffName;
+          } else {
+            face.unsetAnimationEffect(exprName2,true);
+            console.log('unsetAnimationEffect(' + exprName2 + ',true)');
+            settings[fromsyn[exprName2]].effect = '';
+          }
+
+          let exprName4 = exprNames[randomInt(0, exprNames.length-1)];
+          let gazeSpeed = randomInt(10, 100);
+          face.setGazeSpeed(exprName4, gazeSpeed, "linear");
+          console.log('setGazeSpeed(' + exprName3 + ',' + gazeSpeed + ')');
+          settings[fromsyn[exprName4]].gaze_speed = gazeSpeed;
+
+          s = settings[fromsyn[exprName]];
+          console.log(exprName + ' = ' + '(' + s.effect + ',' + s.animation + ',' + s.gaze_speed + ')');
+
+          face.playAnimation();
+          console.log('playAnimation()');
+
+          break;
+
+        default:
+          let x = randomFloat(-gazeRange, gazeRange) + 0.5;
+          let y = randomFloat(-gazeRange, gazeRange) + 0.5;
+          face.setGazeDirection(x, y);
+          console.log(x.toFixed(2) + ", " + y.toFixed(2));
+      }
+      timerCnt = timerCnt-1;
+    }
+
+    onload = function(){
+
+      face_size = Math.min(window.innerWidth, window.innerHeight) - 100;
+      face = new Face({face_width:face_size,face_height:face_size});
+
+      face.setGazeSpeed("default", 10000, "linear");
+
+      face.addSynonyms("wow", "wow-synonym");
+      //face.defineSynonyms(["default", "default-synonym"]);
+      face.addSynonyms("annoyed", ["annoyed-synonym"]);
+      face.addSynonyms("sad", "sad-synonym");
+      face.addSynonyms("default", "default-synonym", "default-synonym2", ["default-synonym3", "default-synonym4"]);
+
+      var arrayLength = exprOrig.length;
+      for (var i = 0; i < arrayLength; i++) {
+        var v = exprOrig[i];
+        fromsyn[v] = v;
+        settings[v] = {effect : '', animation : '', gaze_speed : ''};
+      }
+      fromsyn['wow-synonym'] = 'wow';
+      fromsyn['annoyed-synonym'] = 'annoyed';
+      fromsyn['sad-synonym'] = 'sad';
+      fromsyn['sad-synonym2'] = 'sad';
+      fromsyn['sad-synonym3'] = 'sad';
+      fromsyn['default-synonym'] = 'default';
+      fromsyn['default-synonym2'] = 'default';
+      fromsyn['default-synonym3'] = 'default';
+      fromsyn['default-synonym4'] = 'default';
+
+      // TODO tweak JSON settings
+
+      // Animation effects: swoosh, road-runner, splat, jelly, bounce
+      //face.setAnimationEffect("*","swoosh",{enabled:true,elements:["right-eye","left-eye"],speed:30,'tail-speed':60,'tail-dampent':2.0});
+      //face.setAnimationEffect("default","road-runner",{enabled:true,elements:["left-eye"],speed:40,jump:0.7,'jump-restitution':0.1});
+      //face.setAnimationEffect("default","splat",{enabled:true,elements:["right-eye"],speed:20,mass:0.4,dampent:0.5});
+      //face.setAnimationEffect("*","jelly",{enabled:true,elements:["right-eye"],speed:20,dampent:1.0});
+      //face.setAnimationEffect("*","bounce",{enabled:true,elements:["left-eye"],speed:50,dampent:0.1});
+      //face.setAnimationEffect("default-synonym","bounce",{enabled:true});  
+      //face.setAnimationEffect("default-synonym","jelly",{enabled:true});
+
+      // "wink","widen","eye-roll","tear-drop","blinking","fluctuating","fluctuating-upper","twitching-lower","snoozing"
+      //face.setAnimation("*","wink",{enabled:true,duration:200,easing:'ease-out',scaleY:0.3,elements:['left-eye']}); // one-shot
+      //face.setAnimation("*","widen",{enabled:true,duration:600,easing:'ease-in',scaleY:1.5,scaleX:1.5,elements:['left-eye']}); // one-shot
+      //face.setAnimation("*","eye-roll",{enabled:true,radius:0.3,duration:500,elements:["left-eye","right-eye"],easing:linear}); // one-shot
+
+      //face.setAnimation("*","tear-drop",{enabled:true,elements:["left-eye"],"average-delay":2000,duration:500,easing:'ease-out',stroke:'blue','color':'cyan',random:false}); // continuous
+      //face.setAnimation("*","blinking",{enabled:true,'average-delay':3000,scaleY:0.2,duration:100,elements:["left-eye","right-eye"],"easing":"ease-in-out"}); // continuous
+      //face.setAnimation("*","fluctuating",{enabled:true,elements:["right-eye"],"average-delay":1000,duration:800,easing:'ease-in-out',scaleY:0.5,scaleX:2.0}); // continuous  
+      //face.setAnimation("*","fluctuating-upper",{enabled:true,elements:["right-eye"],"average-delay":3000,duration:600,easing:"ease-out",top:0.8}); // continuous
+      //face.setAnimation("*","twitching-lower",{enabled:true,elements:["left-eye","right-eye"],"average-delay":3000,duration:500,left:0.3,easing:"ease-in"}); // continuous
+      //face.setAnimation("*","snoozing",{enabled:true,el  ements:["right-eye"],"average-delay":2000,duration:3000,easing:'ease-out',left:-0.3,top:-0.3,"font-size":40,color:'cyan',random:false}); // continuous
+
+      //face.unsetAnimation("*",true);
+
+
+      face.onload=function( fac ){
+        say('scroll ' + document.body.scrollHeight + 'x' + document.body.scrollWidth);
+        exprName = 'default';
+        face.setExpression(exprName);
+        //myTimer = setInterval(onTimer, 1000);
+      };
+    };
+
+    function say(text) { document.getElementById('status').innerHTML = text; }
+  </script>
+  <script>
+    function on_data_message(evt) {
+      console.log(evt.data);
+      if (evt.data.startsWith('{')) {
+        var cmd = JSON.parse(evt.data);
+        face.setExpression(cmd.face_expression);        
+      }
+    };
+    webrtc_wrapper.on_data_message = on_data_message;
+  </script>
+  <script>
+  function toggle_vis(id) {
+    var x = document.getElementById(id);
+    console.log(id, x.style.display);
+    if (x.style.display === "") {
+      x.style.display = "none";
+    } else {
+      x.style.display = "";
+    }
+  }
+  </script>
+</body>
+</html>
