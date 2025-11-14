@@ -122,7 +122,7 @@ def generate_launch_description():
             choices=['YDLIDAR-X4', 'XIAOMI-LDS02RR', 'YDLIDAR-X2-X2L',
               '3IROBOTIX-DELTA-2G', 'YDLIDAR-X3-PRO', 'YDLIDAR-X3',
               'NEATO-XV11', 'SLAMTEC-RPLIDAR-A1', '3IROBOTIX-DELTA-2A',
-              '3IROBOTIX-DELTA-2B', 'LDROBOT-LD14P', 'CAMSENSE-X1',
+              '3IROBOTIX-DELTA-2B', 'LDROBOT-LD14P', 'LDROBOT-LD19', 'CAMSENSE-X1',
               'YDLIDAR-SCL', ''],  # 'AUTO'
             description='LiDAR model'
         ),

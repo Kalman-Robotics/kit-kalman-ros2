@@ -11,6 +11,11 @@ Este repositorio contiene los paquetes de ROS2 del robot
     - [6. Publicar el urdf del robot y visualizarlo en RViz](#6-publicar-el-urdf-del-robot-y-visualizarlo-en-rviz)
     - [7. Revisar tópico `scan`](#7-revisar-tópico-scan)
     - [8. Teleoperar el robot](#8-teleoperar-el-robot)
+  - [Setup esencial (simplificado)](#setup-esencial-simplificado)
+    - [1. Ejecutar el agente de micro-ROS](#1-ejecutar-el-agente-de-micro-ros)
+    - [2. Launch: tópicos(telemetry) + robot\_state(urdf) + rviz](#2-launch-tópicostelemetry--robot_stateurdf--rviz)
+  - [Mapeo](#mapeo)
+  - [Otros](#otros)
 
 ## Pasos probados en Ubuntu 22.04:
 ### 1. Clonar el repositorio en el workspace de ROS2
@@ -46,3 +51,21 @@ ros2 topic echo /scan
 ```
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r cmd_vel:=/cmd_vel
 ```
+
+## Setup esencial (simplificado)
+### 1. Ejecutar el agente de micro-ROS
+```
+ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADORA>
+```
+### 2. Launch: tópicos(telemetry) + robot_state(urdf) + rviz
+```
+ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_model:=makerspet_mini lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true
+```
+
+## Mapeo
+Previamente realizar el setup esencial.
+```
+ros2 launch kaiaai_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false
+```
+
+## Otros
