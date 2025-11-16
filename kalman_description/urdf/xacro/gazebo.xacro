@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="$(find kalman_description)/urdf/xacro/properties.xacro"/>
+    <xacro:include filename="$(find kalman_description)/urdf/xacro/inertial.xacro"/>
+
+
+    <xacro:macro name="gazebo_materials">
+
+        <!-- Marcador frontal (lado positivo X) -->
+        <gazebo reference="chassis_link">
+            <material>Gazebo/DarkGrey</material>    
+        </gazebo>
+
+        <gazebo reference="prisma_link">
+            <material>Gazebo/GreyTransparent</material>    
+        </gazebo>
+
+        <gazebo reference="caster_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>
+
+        <gazebo reference="base_lidar_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>
+
+        <gazebo reference="caster_wheel">
+            <material>Gazebo/Grey</material>
+        </gazebo>
+
+        <gazebo reference="left_wheel"> 
+           <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="right_wheel"> 
+           <material>Gazebo/Grey</material>
+        </gazebo>
+        <gazebo reference="laser_link">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+
+    <xacro:macro name="ros2_control_gazebo">
+        <!-- Hardware interface macro --> 
+        <xacro:macro name="ros2_control" params="wheel">
+            <joint name="${wheel}_joint">
+            <command_interface name="velocity">
+                <param name="min">-10</param>
+                <param name="max">10</param>
+            </command_interface>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            </joint>
+        </xacro:macro>
+        <!-- Ros2 control -->
+        <ros2_control name="GaseboSystem" type="system">
+            <hardware>
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+                <!--plugin>uvrobot_hardware/UVRobotHardware</plugin-->
+            </hardware>
+            <xacro:ros2_control wheel="left_wheel"/>
+            <xacro:ros2_control wheel="right_wheel"/>
+        </ros2_control>
+
+        <!-- Plugin ros2 control gazebo --> 
+        <gazebo>
+            <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+                <parameters>$(find uvrobot_control)/config/diff_drive_controller.yaml</parameters>
+                <ros>
+                <remapping>uvrobot_diff_base_controller/cmd_vel_unstamped:=cmd_vel</remapping>
+                <remapping>uvrobot_diff_base_controller/odom:=odom</remapping>
+                <remapping>/tf:=tf</remapping>
+                </ros>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_plugin_drive">
+        <gazebo>
+            <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+
+                <!-- Plugin update rate in Hz -->
+                <updateRate>50</updateRate>
+
+                <!-- Name of left joint, defaults to `left_joint` -->
+                <left_joint>left_wheel_joint</left_joint>
+
+                <!-- Name of right joint, defaults to `right_joint` -->
+                <right_joint>right_wheel_joint</right_joint>
+
+                <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
+                <wheel_separation>0.5380</wheel_separation>
+
+                <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
+                <wheel_diameter>0.2410</wheel_diameter>
+
+                <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
+                <wheel_acceleration>1.0</wheel_acceleration>
+
+                <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
+                <wheel_torque>20</wheel_torque>
+
+                <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
+                <command_topic>cmd_vel</command_topic>
+
+                <odometry_topic>odom</odometry_topic>
+                <odometry_frame>odom</odometry_frame>
+
+                <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+                <robot_base_frame>base_footprint</robot_base_frame>
+
+                <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+                <odometry_source>1</odometry_source>
+
+                <!-- Set to true to publish transforms for the wheel links, defaults to false -->
+                <publish_wheel_tf>true</publish_wheel_tf>
+
+                <!-- Set to true to publish transforms for the odometry, defaults to true -->
+                <publish_odometry_frame>true</publish_odometry_frame>
+
+                <publish_odom>true</publish_odom>
+                <publish_odom_tf>true</publish_odom_tf>
+
+                <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
+                <publish_wheel_joint_state>true</publish_wheel_joint_state>
+
+                <!-- Set to true to swap right and left wheels, defaults to true -->
+                <legacy_mode>false</legacy_mode>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+
+    <xacro:macro name="friction_gazebo">
+        <!-- Friction -->
+        <gazebo reference="caster_joint">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>
+
+        <gazebo reference="caster_wheel_1">
+            <kp>100000.0</kp>
+            <kd>100000.0</kd>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
+        </gazebo>
+
+        <gazebo reference="caster_wheel_2">
+            <kp>100000000.0</kp>
+            <kd>100000000.0</kd>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
+        </gazebo>
+
+    </xacro:macro>
+
+    <xacro:macro name="gazebo_sensors">
+        <gazebo reference="laser_link">
+            <sensor name="lidar_sensor" type="ray">
+                <always_on>1</always_on>
+                <update_rate>10</update_rate>
+                <visualize>0</visualize>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>720</samples>
+                            <resolution>1</resolution>
+                            <min_angle>-${pi}</min_angle>
+                            <max_angle>${pi}</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>0.05</min>
+                        <max>10.0</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                </ray>
+                <plugin name="gazebo_ros_laser" filename="libgazebo_ros_ray_sensor.so">
+                    <topicName>/scan</topicName>
+                    <frameName>laser_link</frameName>
+                    <gaussianNoise>0.01</gaussianNoise>
+                    <output_type>sensor_msgs/LaserScan</output_type>
+                    <ros>
+                        <remapping>/gazebo_ros_laser/out:=/scan</remapping>
+                    </ros>
+                </plugin>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>

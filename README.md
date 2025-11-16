@@ -31,6 +31,13 @@ cd ~/ros2_ws
 colcon build --packages-up-to kaiaai
 source install/setup.bash
 ```
+### 4. Descargar micro-ros
+```
+sudo apt update
+sudo apt install python3-vcstool
+cd ~/kalman_ws/src
+vcs import ./ <  kalman_hardware.repos
+```
 ### 4. Ejecutar el agente de micro-ROS
 ```
 ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADORA>
@@ -59,7 +66,7 @@ ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADO
 ```
 ### 2. Launch: tópicos(telemetry) + robot_state(urdf) + rviz
 ```
-ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_model:=makerspet_mini lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true
+ros2 launch kaiaai_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true
 ```
 
 ## Mapeo
@@ -68,4 +75,6 @@ Previamente realizar el setup esencial.
 ros2 launch kaiaai_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false
 ```
 
-## Otros
+## Lanzar todo el sistema
+
+ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_ip:=192.168.18.124

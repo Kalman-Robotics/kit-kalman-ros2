@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot_name">
+
+
+<xacro:macro name="ros2_control" params="wheel">
+    <joint name="${wheel}_joint">
+    <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+    </command_interface>
+    <state_interface name="position"/>
+    <state_interface name="velocity"/>
+    </joint>
+</xacro:macro>
+  
+<xacro:macro name="uvrobot_ros2_control">
+
+        <ros2_control name="wheels" type="system">
+            <hardware>
+                <plugin>uvrobot_hardware_interfaces/UvrobotSystem</plugin>
+                <param name="connection_timeout_ms">120000</param>
+                <param name="connection_check_period_ms">500</param>
+
+                <!-- order of velocity commands to be published in motors_cmd Float32MultiArray msg -->
+                <param name="velocity_command_joint_order">
+                    right_wheel_joint,
+                    left_wheel_joint,
+                </param>
+            </hardware>
+            <xacro:ros2_control wheel="left_wheel"/>
+            <xacro:ros2_control wheel="right_wheel"/>
+        </ros2_control>
+
+  </xacro:macro>
+</robot>

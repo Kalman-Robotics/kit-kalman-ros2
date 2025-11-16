@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:include filename="$(find kalman_description)/urdf/xacro/properties.xacro"/>
+    <xacro:include filename="$(find kalman_description)/urdf/xacro/inertial.xacro"/>
+
+    <!-- Lidar -->
+    <xacro:macro name="lidar_sensor">
+        <!--link name="laser_link">
+            <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+                <geometry>
+
+                    <mesh filename="file://$(find kalman_description)/meshes/lidar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="black">
+                    <color rgba="0.0 0.0 0.0 1.0"/> 
+                </material>
+            </visual>
+
+            <xacro:inertial_box mass="${lidar_mass}" x="${lidar_largo}" y="${lidar_ancho}" z="${lidar_altura}">
+                <origin xyz="${0.01} 0.0 ${0.0015}" rpy="0.0 0.0 0.0"/>
+            </xacro:inertial_box>
+
+            <collision>
+                <origin xyz="${0.01} 0.0 ${0.0015}" rpy="0.0 0.0 0.0"/>
+                <geometry>
+                    <box size="${lidar_largo} ${lidar_ancho} ${lidar_altura}"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="base_lidar_joint" type="fixed">
+            <origin xyz="0.0 ${0.072} ${-0.1035}" rpy="0.0 0.0 ${-pi/2}"/>
+            <parent link="chassis_link"/>
+            <child link="laser_link"/>
+        </joint-->
+        <link name="laser_link"/>
+        <joint name="base_lidar_joint" type="fixed">
+            <origin xyz="${lidar_x_offset} ${lidar_y_offset} ${lidar_z_offset}" rpy="${pi} 0.0 -${pi/2}"/>
+            <parent link="chassis_link"/>
+            <child link="laser_link"/>
+        </joint>
+
+    </xacro:macro> 
+
+
+</robot>

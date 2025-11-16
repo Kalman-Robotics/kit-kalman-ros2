@@ -14,135 +14,137 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-import re
-from ament_index_python.packages import get_package_share_path
-from launch import LaunchDescription, LaunchContext
-from launch.actions import DeclareLaunchArgument, OpaqueFunction, LogInfo
-from launch.substitutions import Command, LaunchConfiguration
+# Este archivo launch configura y ejecuta nodos para el robot Kalman,
+# incluyendo telemetría, publicador de estado del robot y visualización en RViz2.
+
 from launch_ros.actions import Node
+from launch import LaunchDescription
+from ament_index_python.packages import get_package_share_directory
+from launch.substitutions import LaunchConfiguration, Command, PathJoinSubstitution
 from launch_ros.parameter_descriptions import ParameterValue
-from launch.conditions import UnlessCondition, IfCondition
-from kaiaai import config
-# from launch.conditions import LaunchConfigurationEquals
-
-
-def make_nodes(context: LaunchContext, robot_model, lidar_model, use_sim_time, use_rviz):
-    robot_model_str = context.perform_substitution(robot_model)
-    lidar_model_str = context.perform_substitution(lidar_model)
-    use_sim_time_str = context.perform_substitution(use_sim_time)
-    use_rviz_str = context.perform_substitution(use_rviz)
-
-    if len(robot_model_str) == 0:
-      robot_model_str = config.get_var('robot.model')
-
-    description_package_path = get_package_share_path(robot_model_str)
-    telem_package_path = get_package_share_path('kaiaai_telemetry')
-
-    urdf_path_name = os.path.join(
-      description_package_path,
-      'urdf',
-      'robot.urdf.xacro')
-
-    config_telem_path_name = os.path.join(
-      telem_package_path,
-      'config',
-      'telem.yaml')
-
-    robot_description = ParameterValue(Command(['xacro ', urdf_path_name]), value_type=str)
-
-    config_override_path_name = os.path.join(
-        description_package_path,
-        'config',
-        'telem.yaml'
-    )
-
-    rviz_config_path = os.path.join(
-        description_package_path,
-        'rviz',
-        'custom.rviz')
-    
-    lidar_model = lidar_model_str if len(lidar_model_str) > 0 else \
-      robot_model_str + ' default'
-
-    print('URDF file   : {}'.format(urdf_path_name))
-    print('Telem params: {}'.format(config_telem_path_name))
-    print('Model params: {}'.format(config_override_path_name))
-    print('LiDAR model : {}'.format(lidar_model))
-    print('Rviz2 config        : {}'.format(rviz_config_path))    
-
-    LogInfo(msg='URDF file   : {}'.format(urdf_path_name))
-    LogInfo(msg='Telem params: {}'.format(config_telem_path_name))
-    LogInfo(msg='Model params: {}'.format(config_override_path_name))
-    LogInfo(msg='LiDAR model : {}'.format(lidar_model))
-    LogInfo(msg='Rviz2 config: {}'.format(rviz_config_path))
-
-    return [
-        Node(
-            package="kaiaai_telemetry",
-            executable="telem",
-            output="screen",
-            parameters = [config_telem_path_name, config_override_path_name,
-              {'laser_scan.lidar_model': lidar_model_str}]
-              if len(lidar_model_str) > 0 else
-              [config_telem_path_name, config_override_path_name]
-        ),
-        Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{
-                'use_sim_time': use_sim_time_str.lower() == 'true',
-                'robot_description': robot_description
-            }]
-        ),
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', rviz_config_path],
-            parameters=[{'use_sim_time': use_sim_time_str.lower() == 'true'}],
-            condition=IfCondition(use_rviz),
-        ),        
-    ]
+from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 
 
 def generate_launch_description():
 
+    robot_name = "kalman"
+    package_description = robot_name + "_description"
+    package_telemetry = "kaiaai_telemetry"
+    package_bringup = "kaiaai_bringup"
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~ PATHS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    package_share = get_package_share_directory(package_description)
+    telem_package_share = get_package_share_directory(package_telemetry)
+    bringup_package_share = get_package_share_directory(package_bringup)
+
+    robot_desc_path = PathJoinSubstitution([package_share, 'urdf', 'kalman.urdf.xacro'])
+    rviz_file = PathJoinSubstitution([bringup_package_share, 'rviz', 'bringup.rviz'])
+    config_telem_path = PathJoinSubstitution([telem_package_share, 'config', 'telem.yaml'])
+    config_override_path = PathJoinSubstitution([telem_package_share, 'config', 'telem.yaml'])
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~ ARGUMENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    arg_use_sim_time = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='false',
+        choices=['true', 'false'],
+        description='Use simulation (Gazebo) clock if true'
+    )
+
+    arg_use_rviz = DeclareLaunchArgument(
+        'use_rviz',
+        default_value='true',
+        choices=['true', 'false'],
+        description='Launch RViz2 if true'
+    )
+
+    arg_lidar_model = DeclareLaunchArgument(
+        'lidar_model',
+        default_value='',
+        choices=['YDLIDAR-X4', 'XIAOMI-LDS02RR', 'YDLIDAR-X2-X2L',
+                 '3IROBOTIX-DELTA-2G', 'YDLIDAR-X3-PRO', 'YDLIDAR-X3',
+                 'NEATO-XV11', 'SLAMTEC-RPLIDAR-A1', '3IROBOTIX-DELTA-2A',
+                 '3IROBOTIX-DELTA-2B', 'LDROBOT-LD14P', 'LDROBOT-LD19',
+                 'CAMSENSE-X1', 'YDLIDAR-SCL', ''],
+        description='LiDAR model'
+    )
+
+    arg_robot_ip = DeclareLaunchArgument(
+        'robot_ip',
+        default_value='192.168.18.124',
+        description='IP address of the robot for micro-ROS communication'
+    )
+
+    arg_microros_port = DeclareLaunchArgument(
+        'microros_port',
+        default_value='8888',
+        description='UDP port for micro-ROS agent'
+    )
+
+    config_use_sim_time = LaunchConfiguration('use_sim_time')
+    config_use_rviz = LaunchConfiguration('use_rviz')
+    config_lidar_model = LaunchConfiguration('lidar_model')
+    config_robot_ip = LaunchConfiguration('robot_ip')
+    config_microros_port = LaunchConfiguration('microros_port')
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~ PARAMETERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    robot_description = ParameterValue(Command(['xacro ', robot_desc_path]), value_type=str)
+
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~ NODES ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    # Agente de micro-ROS - maneja comunicación con microcontroladores
+    micro_ros_agent = Node(
+        package='micro_ros_agent',
+        executable='micro_ros_agent',
+        name='micro_ros_agent',
+        output='screen',
+        arguments=['udp4', '--port', config_microros_port, '-i', config_robot_ip]
+    )
+
+    # Nodo de telemetría - maneja comunicación con sensores y actuadores
+    telemetry_node = Node(
+        package='kaiaai_telemetry',
+        executable='telem',
+        output='screen',
+        parameters=[config_telem_path, config_override_path,
+                   {'laser_scan.lidar_model': config_lidar_model}]
+    )
+
+    # Publica el modelo del robot en un tópico
+    robot_state_publisher = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        emulate_tty=True,
+        parameters=[{'use_sim_time': config_use_sim_time},
+                    {'robot_description': robot_description}],
+        output='screen'
+    )
+
+    # Visualización en RViz2
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        emulate_tty=True,
+        arguments=['-d', rviz_file],
+        parameters=[{'use_sim_time': config_use_sim_time}],
+        condition=IfCondition(config_use_rviz)
+    )
+
+    #~~~~~~~~~~~~~~~~~~~~~~~~ LAUNCH ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     return LaunchDescription([
-        DeclareLaunchArgument(
-            name='robot_model',
-            default_value='',
-            description='Robot description package name'
-        ),
-        DeclareLaunchArgument(
-            name='lidar_model',
-            default_value='',
-            choices=['YDLIDAR-X4', 'XIAOMI-LDS02RR', 'YDLIDAR-X2-X2L',
-              '3IROBOTIX-DELTA-2G', 'YDLIDAR-X3-PRO', 'YDLIDAR-X3',
-              'NEATO-XV11', 'SLAMTEC-RPLIDAR-A1', '3IROBOTIX-DELTA-2A',
-              '3IROBOTIX-DELTA-2B', 'LDROBOT-LD14P', 'LDROBOT-LD19', 'CAMSENSE-X1',
-              'YDLIDAR-SCL', ''],  # 'AUTO'
-            description='LiDAR model'
-        ),
-        DeclareLaunchArgument(
-            name='use_sim_time',
-            default_value='false',
-            choices=['true', 'false'],
-            description='Use simulation (Gazebo) clock if true'
-        ),
-        DeclareLaunchArgument(
-            name='use_rviz',
-            default_value='true',
-            choices=['true', 'false'],
-            description='Launch RViz2 if true'
-        ),
-        OpaqueFunction(function=make_nodes, args=[
-            LaunchConfiguration('robot_model'),
-            LaunchConfiguration('lidar_model'),
-            LaunchConfiguration('use_sim_time'),
-            LaunchConfiguration('use_rviz')
-        ]),
+        arg_use_sim_time,
+        arg_use_rviz,
+        arg_lidar_model,
+        arg_robot_ip,
+        arg_microros_port,
+        micro_ros_agent,
+        telemetry_node,
+        robot_state_publisher,
+        rviz
     ])

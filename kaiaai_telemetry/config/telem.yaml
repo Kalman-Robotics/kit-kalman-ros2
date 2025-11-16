@@ -4,7 +4,7 @@ kaiaai_telemetry_node:
     laser_scan:
       mask_radius_meters: 0.1
       topic_name_pub: "scan"
-      frame_id: "base_scan"
+      frame_id: "laser_link"
       discard_broken_scans: true
       lidar_model: "LDROBOT-LD19"
 
