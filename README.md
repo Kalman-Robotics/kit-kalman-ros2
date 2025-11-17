@@ -6,6 +6,7 @@ Este repositorio contiene los paquetes de ROS2 del robot
     - [1. Clonar el repositorio en el workspace de ROS2](#1-clonar-el-repositorio-en-el-workspace-de-ros2)
     - [2. Instalar dependencias](#2-instalar-dependencias)
     - [3. Compilar el proyecto](#3-compilar-el-proyecto)
+    - [4. Descargar micro-ros](#4-descargar-micro-ros)
     - [4. Ejecutar el agente de micro-ROS](#4-ejecutar-el-agente-de-micro-ros)
     - [5. Ejecutar nodo de telemetría para obtener tópicos del robot](#5-ejecutar-nodo-de-telemetría-para-obtener-tópicos-del-robot)
     - [6. Publicar el urdf del robot y visualizarlo en RViz](#6-publicar-el-urdf-del-robot-y-visualizarlo-en-rviz)
@@ -15,15 +16,17 @@ Este repositorio contiene los paquetes de ROS2 del robot
     - [1. Ejecutar el agente de micro-ROS](#1-ejecutar-el-agente-de-micro-ros)
     - [2. Launch: tópicos(telemetry) + robot\_state(urdf) + rviz](#2-launch-tópicostelemetry--robot_stateurdf--rviz)
   - [Mapeo](#mapeo)
-  - [Otros](#otros)
+  - [Lanzar todo el sistema](#lanzar-todo-el-sistema)
+- [IMu](#imu)
+- [Control](#control)
 
 ## Pasos probados en Ubuntu 22.04:
 ### 1. Clonar el repositorio en el workspace de ROS2
 ```
 mkidr -p ~/kalman_ws/src
 cd ~/kalman_ws
+vcs import ./ <  kalman_software.repos
 ```
-
 ### 2. Instalar dependencias
 ```
 rosdep update
