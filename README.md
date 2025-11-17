@@ -19,11 +19,16 @@ Este repositorio contiene los paquetes de ROS2 del robot
 
 ## Pasos probados en Ubuntu 22.04:
 ### 1. Clonar el repositorio en el workspace de ROS2
+```
+mkidr -p ~/kalman_ws/src
+cd ~/kalman_ws
+```
+
 ### 2. Instalar dependencias
 ```
 rosdep update
-cd ~/ros2_ws
-rosdep install --from-paths src/Kit-Kalman-ROS2 --ignore-src -r -y
+cd ~/kalman_ws
+rosdep install --from-paths src--ignore-src -r -y
 ```
 ### 3. Compilar el proyecto
 ```
@@ -78,3 +83,10 @@ ros2 launch kaiaai_bringup cartographer.launch.py robot_model:=makerspet_mini us
 ## Lanzar todo el sistema
 
 ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_ip:=192.168.18.124
+
+
+# IMu
+
+ros2 launch kalman_utils madgwick.launch.py
+
+# Control

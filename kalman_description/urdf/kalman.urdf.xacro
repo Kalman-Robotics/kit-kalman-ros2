@@ -26,7 +26,7 @@
     </xacro:caster_wheel>
 
     <xacro:lidar_sensor/>
-
+    <xacro:imu_sensor/>
     <!--xacro:if value="$(arg use_sim)">
         <xacro:if value="$(arg use_ros2_control)">
             <xacro:ros2_control_gazebo/>

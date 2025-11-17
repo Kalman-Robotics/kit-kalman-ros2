@@ -13,7 +13,7 @@
 
   <depend>rclpy</depend>
   <exec_depend>kaiaai_bringup</exec_depend>
-  <exec_depend>kaiaai_msgs</exec_depend>
+  <exec_depend>kalman_interfaces</exec_depend>
   <exec_depend>kaiaai_telemetry</exec_depend>
   <exec_depend>kaiaai_teleop</exec_depend>
   <exec_depend>kaiaai_web</exec_depend>

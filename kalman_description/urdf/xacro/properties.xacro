@@ -41,4 +41,8 @@
     <xacro:property name="antena_y_offset" value="-0.031980"/>   
     <xacro:property name="antena_z_offset" value="0.0706"/>  
 
+    <xacro:property name="imu_x_offset" value="0.0"/>  
+    <xacro:property name="imu_y_offset" value="0.0"/>   
+    <xacro:property name="imu_z_offset" value="0.0"/>  
+
 </robot>

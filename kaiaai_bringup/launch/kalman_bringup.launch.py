@@ -62,7 +62,7 @@ def generate_launch_description():
 
     arg_lidar_model = DeclareLaunchArgument(
         'lidar_model',
-        default_value='',
+        default_value='LDROBOT-LD19',
         choices=['YDLIDAR-X4', 'XIAOMI-LDS02RR', 'YDLIDAR-X2-X2L',
                  '3IROBOTIX-DELTA-2G', 'YDLIDAR-X3-PRO', 'YDLIDAR-X3',
                  'NEATO-XV11', 'SLAMTEC-RPLIDAR-A1', '3IROBOTIX-DELTA-2A',
