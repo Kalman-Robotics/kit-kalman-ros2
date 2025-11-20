@@ -245,7 +245,7 @@ private:
 
     // Publish control status
     auto control_status_msg = kalman_interfaces::msg::ControlStatus();
-    control_status_msg.r_current_control = telem_msg.status.r_current_control;
+    /*control_status_msg.r_current_control = telem_msg.status.r_current_control;
     control_status_msg.r_current_speed = telem_msg.status.r_current_speed;
     control_status_msg.r_current_speed_filtered = telem_msg.status.r_current_speed_filtered;
     control_status_msg.r_current_error = telem_msg.status.r_current_error;
@@ -255,7 +255,7 @@ private:
     control_status_msg.l_current_speed_filtered = telem_msg.status.l_current_speed_filtered;
     control_status_msg.l_current_error = telem_msg.status.l_current_error;
     control_status_msg.l_setpoint = telem_msg.status.l_setpoint;
-    control_status_pub_->publish(control_status_msg);
+    control_status_pub_->publish(control_status_msg);*/
   }
 
   void lds_setup()
