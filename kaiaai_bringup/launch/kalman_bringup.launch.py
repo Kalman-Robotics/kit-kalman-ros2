@@ -101,7 +101,7 @@ def generate_launch_description():
         executable='micro_ros_agent',
         name='micro_ros_agent',
         output='screen',
-        arguments=['udp4', '--port', config_microros_port, '-i', config_robot_ip]
+        arguments=['udp4', '--port', config_microros_port]
     )
 
     # Nodo de telemetría - maneja comunicación con sensores y actuadores
