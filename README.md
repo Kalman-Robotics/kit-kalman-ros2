@@ -17,7 +17,7 @@ ros2 run rviz2 rviz2 -d src/kit-kalman-ros2/kaiaai_bringup/rviz/bringup.rviz
 ros2 launch kalman_utils madgwick.launch.py
 
 ## Mapeo
-Previamente realizar el setup esencial.
+
 ```
 ros2 launch kaiaai_bringup cartographer.launch.py use_sim_time:=false
 ```
