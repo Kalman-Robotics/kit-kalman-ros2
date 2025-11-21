@@ -10,11 +10,19 @@ ros2 launch kaiaai_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 us
 ```
 ### 2.  rviz
 ```
-ros2 run rviz2 rviz2 -d src/kit-kalman-ros2/kaiaai_bringup/rviz/bringup.rviz
+rviz2
 ```
 ## 3.  IMu
-
+```
+sudo apt update
+sudo apt install ros-humble-imu-filter-madgwick
 ros2 launch kalman_utils madgwick.launch.py
+```
+Calibrar
+```
+ros2 run kalman_utils imu_calibration
+```
+
 
 ## Mapeo
 
