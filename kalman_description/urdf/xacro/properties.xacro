@@ -37,7 +37,7 @@
     <xacro:property name="antena_ancho" value="0.1075" />
     <xacro:property name="antena_radius" value="0.005" />
     <xacro:property name="antena_mass" value="0.3" />
-    <xacro:property name="antena_x_offset" value="-0.0055"/>  
+    <xacro:property name="antena_x_offset" value="-0.0555"/>  
     <xacro:property name="antena_y_offset" value="-0.031980"/>   
     <xacro:property name="antena_z_offset" value="0.0706"/>  
 

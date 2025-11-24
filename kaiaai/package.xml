@@ -17,6 +17,7 @@
   <exec_depend>kaiaai_telemetry</exec_depend>
   <exec_depend>kaiaai_teleop</exec_depend>
   <exec_depend>kaiaai_web</exec_depend>
+  <exec_depend>kalman_description</exec_depend>
   <exec_depend>makerspet_mini</exec_depend>
 
   <test_depend>ament_copyright</test_depend>

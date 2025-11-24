@@ -10,7 +10,9 @@
                 <geometry>
                    <mesh filename="file://$(find kalman_description)/meshes/caster_wheel.stl" scale="0.001 0.001 0.001"/>
                 </geometry>
-                <material name="black"/>
+                <material name="black">
+                    <color rgba="0.0 0.0 0.0 1.0"/>
+                </material>
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>

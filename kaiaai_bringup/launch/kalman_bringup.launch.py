@@ -60,6 +60,13 @@ def generate_launch_description():
         description='Launch RViz2 if true'
     )
 
+    arg_use_uros = DeclareLaunchArgument(
+        'use_uros',
+        default_value='true',
+        choices=['true', 'false'],
+        description='Use micro-ROS communication if true'
+    )
+
     arg_lidar_model = DeclareLaunchArgument(
         'lidar_model',
         default_value='LDROBOT-LD19',
@@ -73,7 +80,7 @@ def generate_launch_description():
 
     arg_robot_ip = DeclareLaunchArgument(
         'robot_ip',
-        default_value='192.168.18.124',
+        default_value='192.168.18.16',
         description='IP address of the robot for micro-ROS communication'
     )
 
@@ -85,6 +92,7 @@ def generate_launch_description():
 
     config_use_sim_time = LaunchConfiguration('use_sim_time')
     config_use_rviz = LaunchConfiguration('use_rviz')
+    config_use_uros = LaunchConfiguration('use_uros')
     config_lidar_model = LaunchConfiguration('lidar_model')
     config_robot_ip = LaunchConfiguration('robot_ip')
     config_microros_port = LaunchConfiguration('microros_port')
@@ -101,7 +109,8 @@ def generate_launch_description():
         executable='micro_ros_agent',
         name='micro_ros_agent',
         output='screen',
-        arguments=['udp4', '--port', config_microros_port]
+        arguments=['udp4', '--port', config_microros_port, '-i', config_robot_ip],
+        condition=IfCondition(config_use_uros)
     )
 
     # Nodo de telemetría - maneja comunicación con sensores y actuadores
@@ -140,6 +149,7 @@ def generate_launch_description():
     return LaunchDescription([
         arg_use_sim_time,
         arg_use_rviz,
+        arg_use_uros,
         arg_lidar_model,
         arg_robot_ip,
         arg_microros_port,

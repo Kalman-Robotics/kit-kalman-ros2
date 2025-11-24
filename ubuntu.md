@@ -17,7 +17,7 @@ Este repositorio contiene los paquetes de ROS2 del robot
     - [2. Launch: tópicos(telemetry) + robot\_state(urdf) + rviz](#2-launch-tópicostelemetry--robot_stateurdf--rviz)
   - [Mapeo](#mapeo)
   - [Lanzar todo el sistema](#lanzar-todo-el-sistema)
-- [IMu](#imu)
+- [IMU](#imu)
 - [Control](#control)
 
 ## Pasos probados en Ubuntu 22.04:
@@ -88,7 +88,7 @@ ros2 launch kaiaai_bringup cartographer.launch.py robot_model:=makerspet_mini us
 ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_ip:=192.168.18.124
 
 
-# IMu
+# IMU
 
 ros2 launch kalman_utils madgwick.launch.py
 
