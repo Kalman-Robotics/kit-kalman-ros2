@@ -10,8 +10,6 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
     - [Software](#software)
     - [Hardware](#hardware)
   - [Instalación y compilación](#instalación-y-compilación)
-    - [1. Clonación del repositorio](#1-clonación-del-repositorio)
-    - [2. Compilación del proyecto](#2-compilación-del-proyecto)
   - [Uso de los paquetes ROS2 para el robot](#uso-de-los-paquetes-ros2-para-el-robot)
     - [1. Ejecutar el agente de micro-ROS](#1-ejecutar-el-agente-de-micro-ros)
     - [2. Lanzamiento inicial del robot](#2-lanzamiento-inicial-del-robot)
@@ -45,7 +43,8 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 
 ## Instalación y compilación
 
-### 1. Clonación del repositorio
+<details>
+<summary>1. Clonación del repositorio y submódulos</summary>
 
 - Dentro de la carpeta `ros2_ws/src/`, clonar el repositorio:
 ```bash
@@ -56,14 +55,28 @@ git clone https://github.com/Kalman-Robotics/kit-kalman-ros2
 cd kit-kalman-ros2
 git submodule update --init --recursive
 ```
+</details>
 
-### 2. Compilación del proyecto
+<details>
+<summary>2. Instalación de dependencias</summary>
+
+```
+rosdep update
+cd ~/kalman_ws
+rosdep install --from-paths src--ignore-src -r -y
+```
+</details>
+
+<details>
+<summary>3. Compilación del proyecto</summary>
+
 - Volver a la carpeta raíz del workspace y compilar:
 ```bash
 cd ~/ros2_ws
 colcon build --packages-up-to kalman
 source install/setup.bash
 ```
+</details>
 
 ## Uso de los paquetes ROS2 para el robot
 ### 1. Ejecutar el agente de micro-ROS

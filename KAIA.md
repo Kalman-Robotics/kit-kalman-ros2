@@ -44,19 +44,6 @@ lds: [...]
 ```
 
 On ROS2 PC
-```
-sinso@X507UBR:~$ ros2 topic list
-/battery_state
-/cmd_vel
-/joint_states
-/odom
-/parameter_events
-/rosout
-/scan
-/telemetry
-/tf
-/wifi_state
-```
 
 Telemetry node
 ```

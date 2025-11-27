@@ -1,3 +1,4 @@
+# kalman_description package
 # DOCUMENTACION DEL PAQUETE URDF DEL ROBOT (`kalman_description`)
 
 Este paquete contiene la descripción física del robot en formato URDF (Unified Robot Description Format) utilizando XACRO, una herramienta que permite escribir URDFs de manera modular y parametrizada. El robot descrito se llama `uvrobot `.

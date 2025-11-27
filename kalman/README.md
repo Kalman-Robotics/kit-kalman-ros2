@@ -1,3 +1,4 @@
+# kalman meta-package
 # Kaia.ai Arduino/ROS2 home robots
 
 [Kaia.ai](https://kaia.ai) is an open-source software platform to run apps on (consumer/home) robots. For now, it uses ROS2 for mapping/navigation/SLAM and [Arduino-compabile firwmare](https://github.com/kaiaai/firmware).
