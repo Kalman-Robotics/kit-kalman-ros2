@@ -12,7 +12,6 @@
 
   <depend>rclpy</depend>
   <exec_depend>kalman_bringup</exec_depend>
-  <!-- <exec_depend>kalman_control</exec_depend> -->
   <exec_depend>kalman_description</exec_depend> 
   <!-- <exec_depend>kalman_gazebo</exec_depend>   -->
   <exec_depend>kalman_interfaces</exec_depend>

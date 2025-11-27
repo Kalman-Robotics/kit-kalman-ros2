@@ -20,7 +20,6 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 ## Paquetes ROS2 para el Kit Kalman de Kalman Robotics
 - **kalman**: meta-paquete que agrupa todos los paquetes relacionados con el Kit Kalman.
 - **kalman_bringup**: paquete multifuncional de lanzamiento para iniciar el robot con diversas configuraciones.
-- **kalman_control**: paquete ...
 - **kalman_description**: contiene la descripción URDF del robot Kalman.
 - **kalman_gazebo**: simulaciones en el entorno Gazebo.
 - **kalman_interfaces**: definiciones de interfaces personalizados.
