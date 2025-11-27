@@ -50,7 +50,7 @@ Publica los tópicos:
 - `/scan` : Publica los datos del escáner láser del robot.
 - `/wifi_state` : Publica el estado de la conexión Wi-Fi del robot.
 - `/tf`: Publica la transformación de odometría del robot.
-- `/control_status` : Publica el estado de control del robot.
+<!-- - `/control_status` : Publica el estado de control del robot. -->
 
 - `/robot_description` : Publica el modelo URDF del robot.
 - `/tf` : Publica las transformaciones del robot.

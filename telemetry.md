@@ -1,11 +1,12 @@
-On microcontroller
+## On microcontroller
 Terminal
 ```
 Telem avg 51 max 52ms, LiDAR RPM 10.00, wheels RPM 0.00 0.00, battery 3.70V, RSSI -29dBm
 ```
 
-Micro-ROS messages
-TOPICS
+## On PC
+
+Incoming Topics
 ```
 /buzzer [kalman_interfaces/msg/Buzzer]
 /cmd_vel [geometry_msgs/msg/Twist]
@@ -15,7 +16,7 @@ TOPICS
 /telemetry [kalman_interfaces/msg/KaiaaiTelemetry2]
 ```
 
-TELEMETRY
+TELEMETRY topic content
 ```
 ---
 stamp:
@@ -43,8 +44,7 @@ lds: [...]
 ---
 ```
 
-On ROS2 PC
-
+### ROS2 nodes
 Telemetry node
 ```
 /battery_state
@@ -61,16 +61,3 @@ Telemetry node
 /tf
 /wifi_state
 ```
-
-
-Micro-ROS agent
-ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i 192.168.18.16
-
-Telemetry for robot topics
-ros2 run kalman_telemetry telem --ros-args -p laser_scan.lidar_model:=LDROBOT-LD19
-
-Publish robot urdf and visualize
-ros2 launch kalman_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini
-
-teleop
-ros2 topic echo /scan

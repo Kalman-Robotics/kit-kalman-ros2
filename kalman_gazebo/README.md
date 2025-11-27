@@ -1,29 +1,10 @@
-# kalman_gazebo package
-# [Kaia.ai](https://kaia.ai) pet robot simulation
+# kalman_gazebo package [PENDIENTE]
 
-[Kaia.ai](https://kaiaai) is a platform for 3D-printable pet robots. Please sign up for an early launch invite [here](https://remake.ai).
-
-This repo is a ROS2 simulations meta-package for [Kaia.ai](https://kaia.ai) pet robots.
-
-Questions? Please visit the [Support Forum](https://github.com/makerspet/support/discussions/)!
-
-## Your PC setup
-- If you are using a Windows PC, install [Windows WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install)
-and [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
-- When running in Docker for Windows, also install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
-to display GUI from the container - Rviz2, Gazebo, rqt, etc.
-  - Launch `c:\Program Files\VcXsrv\xlaunch.exe` and set its
-*display number* to *zero* when prompted.
-- When using a Linux PC, install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) or
-[Docker Desktop](https://docs.docker.com/desktop/install/linux-install/) (with GUI)
-- Download the Kaia.ai developer's Docker image `docker pull kaiaai/kaiaai-ros-dev:humble`
-
-## Launch the development Docker image
-Open a Linux or Windows shell and run:
-```
-docker run --name kaiaai-ros-dev-humble -it -p 8888:8888/udp -e DISPLAY=host.docker.internal:0.0 -e LIBGL_ALWAYS_INDIRECT=0 kaiaai/kaiaai-ros-dev:humble
-```
-This command above launches the Kaia.ai developer Docker image and gives you bash prompt.
+- [kalman\_gazebo package \[PENDIENTE\]](#kalman_gazebo-package-pendiente)
+  - [Simulate the default robot model](#simulate-the-default-robot-model)
+  - [Simulate a different robot model](#simulate-a-different-robot-model)
+  - [Run SLAM, generate a map](#run-slam-generate-a-map)
+  - [Navigate to a goal](#navigate-to-a-goal)
 
 ## Simulate the default robot model
 - Run each command below in a separate terminal window
@@ -94,6 +75,3 @@ manually specify the approximate initial location of your bot.
     - Clock on the map at the navigation goal location. Hold your mouse button down and drag your mouse in the direction you want your bot to face once it arrives to its goal location. Now you can release your mouse button. Rviz should display your bot's planned path and your bot should start moving.
 
 Press CTRL-C one or more times in each terminal window to stop the simulation.
-
-## Acknowledgements
-Initial versions of packages in this repo are based on ROBOTIS [Turtlebot3 code](https://github.com/ROBOTIS-GIT/turtlebot3_simulations)
