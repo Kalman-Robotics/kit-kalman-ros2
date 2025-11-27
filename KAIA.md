@@ -54,10 +54,10 @@ Wifi setup
 http://192.168.4.1/
 
 Telemetry for robot topics
-ros2 run kaiaai_telemetry telem
+ros2 run kalman_telemetry telem
 
 Publish robot urdf and visualize
-ros2 launch kaiaai_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini
+ros2 launch kalman_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini
 
 teleop
 ros2 topic echo /scan

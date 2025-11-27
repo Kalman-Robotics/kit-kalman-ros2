@@ -36,7 +36,7 @@ rosdep install --from-paths src--ignore-src -r -y
 ### 3. Compilar el proyecto
 ```
 cd ~/ros2_ws
-colcon build --packages-up-to kaiaai
+colcon build --packages-up-to kalman
 source install/setup.bash
 ```
 ### 4. Descargar micro-ros
@@ -52,11 +52,11 @@ ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADO
 ```
 ### 5. Ejecutar nodo de telemetría para obtener tópicos del robot
 ```
-ros2 run kaiaai_telemetry telem --ros-args -p laser_scan.lidar_model:="LDROBOT-LD19"
+ros2 run kalman_telemetry telem --ros-args -p laser_scan.lidar_model:="LDROBOT-LD19"
 ```
 ### 6. Publicar el urdf del robot y visualizarlo en RViz
 ```
-ros2 launch kaiaai_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini
+ros2 launch kalman_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini
 ```
 ### 7. Revisar tópico `scan` 
 ```
@@ -74,18 +74,18 @@ ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADO
 ```
 ### 2. Launch: tópicos(telemetry) + robot_state(urdf) + rviz
 ```
-ros2 launch kaiaai_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=false
+ros2 launch kalman_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=false
 ```
 
 ## Mapeo
 Previamente realizar el setup esencial.
 ```
-ros2 launch kaiaai_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false
+ros2 launch kalman_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false
 ```
 
 ## Lanzar todo el sistema
 
-ros2 launch kaiaai_bringup kalman_bringup.launch.py robot_ip:=192.168.18.124
+ros2 launch kalman_bringup kalman_bringup.launch.py robot_ip:=192.168.18.124
 
 
 # IMU

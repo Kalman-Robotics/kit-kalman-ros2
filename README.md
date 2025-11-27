@@ -11,7 +11,7 @@ ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i <IP_DE_LA_COMPUTADO
 
 ### 1. Launch: tópicos(telemetry) + robot_state(urdf)
 ```
-ros2 launch kaiaai_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true use_uros:=false
+ros2 launch kalman_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true use_uros:=false
 ```
 ### 2.  rviz
 ```
@@ -32,6 +32,6 @@ ros2 run kalman_utils imu_calibration
 ## Mapeo
 
 ```
-ros2 launch kaiaai_bringup cartographer.launch.py use_sim_time:=false
+ros2 launch kalman_bringup cartographer.launch.py use_sim_time:=false
 ```
 

@@ -1,0 +1,13 @@
+material Custom/kalman
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture kalman_logo_450x460.png
+			}
+		}
+	}
+}
