@@ -1,9 +1,21 @@
 On microcontroller
 Terminal
 ```
-Telem avg 51 max 52ms, LiDAR RPM 10.00, wheels RPM 0.00 0.00, battery 0.00V, RSSI -29dBm
+Telem avg 51 max 52ms, LiDAR RPM 10.00, wheels RPM 0.00 0.00, battery 3.70V, RSSI -29dBm
 ```
+
 Micro-ROS messages
+TOPICS
+```
+/buzzer [kalman_interfaces/msg/Buzzer]
+/cmd_vel [geometry_msgs/msg/Twist]
+/imu_telem [kalman_interfaces/msg/ImuData]
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+/telemetry [kalman_interfaces/msg/KaiaaiTelemetry2]
+```
+
+TELEMETRY
 ```
 ---
 stamp:
@@ -21,13 +33,13 @@ joint:
 - pos: 123.92835235595703
   vel: 0.0
 wifi_rssi_dbm: -33
-battery_mv: 0
+battery_mv: 3700
 distance_mm: []
 bumper: []
 cliff: []
 touch: []
 scan_start_hint: false
-lds: []
+lds: [...]
 ---
 ```
 
@@ -46,15 +58,29 @@ sinso@X507UBR:~$ ros2 topic list
 /wifi_state
 ```
 
+Telemetry node
+```
+/battery_state
+/buzzer
+/cmd_vel
+/control_status
+/imu_telem
+/joint_states
+/odom
+/parameter_events
+/rosout
+/scan
+/telemetry
+/tf
+/wifi_state
+```
+
 
 Micro-ROS agent
 ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888 -i 192.168.18.16
 
-Wifi setup
-http://192.168.4.1/
-
 Telemetry for robot topics
-ros2 run kalman_telemetry telem
+ros2 run kalman_telemetry telem --ros-args -p laser_scan.lidar_model:=LDROBOT-LD19
 
 Publish robot urdf and visualize
 ros2 launch kalman_bringup inspect_urdf.launch.py joints:=nogui robot_model:=makerspet_mini

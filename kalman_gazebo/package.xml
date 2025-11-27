@@ -3,14 +3,12 @@
 <package format="3">
   <name>kalman_gazebo</name>
   <version>0.0.0</version>
-  <description>Gazebo simulation package for Kaia.ai-compatible robots</description>
-
-  <maintainer email="iliao@kaia.ai">Ilia O.</maintainer>
-  <author email="iliao@kaia.ai">Ilia O.</author>
+  <description>ROS2 package for Robotics Kalman Kit. Gazebo simulation</description>
+  <maintainer email="kalmanrobotics@gmail.com">Kalman Robotics</maintainer>
   <license>Apache-2.0</license>
-  <url type="website">https://kaia.ai/</url>
-  <url type="repository">https://github.com/kalman/kalman_simulations</url>
-  <url type="bugtracker">https://github.com/kalman/kalman_simulations/issues</url>
+  <url type="website">https://kalmanrobotics.io//</url>
+  <url type="repository">https://github.com/Kalman-Robotics/kit-kalman-ros2_simulations</url>
+  <url type="bugtracker">https://github.com/Kalman-Robotics/kit-kalman-ros2_simulations/issues</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <depend>gazebo_ros_pkgs</depend>

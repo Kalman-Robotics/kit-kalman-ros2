@@ -3,14 +3,13 @@
 <package format="3">
   <name>kalman_bringup</name>
   <version>0.0.0</version>
-  <description>ROS2 scripts to start Kaia.ai software platform compatible robots</description>
+  <description>ROS2 package for Robotics Kalman Kit. General multifunctional package</description>
 
-  <maintainer email="iliao@kaia.ai">Ilia O.</maintainer>
+  <maintainer email="kalmanrobotics@gmail.com">Kalman Robotics</maintainer>
   <license>Apache 2.0</license>
-  <url type="website">https://kaia.ai</url>
-  <url type="repository">https://github.com/kalman/kalman</url>
-  <url type="bugtracker">https://github.com/kalman/kalman/issues</url>
-  <author email="iliao@kaia.ai">Ilia O.</author>
+  <url type="website">https://kalmanrobotics.io/</url>
+  <url type="repository">https://github.com/Kalman-Robotics/kit-kalman-ros2</url>
+  <url type="bugtracker">https://github.com/Kalman-Robotics/kit-kalman-ros2/issues</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

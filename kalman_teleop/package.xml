@@ -3,13 +3,12 @@
 <package format="3">
   <name>kalman_teleop</name>
   <version>0.0.0</version>
-  <description>Control Kaia.ai-compatible robots using a keyboard</description>
-  <maintainer email="iliao@kaia.ai">Ilia O.</maintainer>
+  <description>ROS2 package for Robotics Kalman Kit. Control robots using a keyboard</description>
+  <maintainer email="kalmanrobotics@gmail.com">Kalman Robotics</maintainer>
   <license>Apache 2.0</license>
-  <url type="website">https://kaia.ai</url>
-  <url type="repository">https://github.com/kalman/kalman</url>
-  <url type="bugtracker">https://github.com/kalman/kalman/issues</url>
-  <author email="iliao@kaia.ai">Ilia O.</author>
+  <url type="website">https://kalmanrobotics.io/</url>
+  <url type="repository">https://github.com/Kalman-Robotics/kit-kalman-ros2</url>
+  <url type="bugtracker">https://github.com/Kalman-Robotics/kit-kalman-ros2/issues</url>
 
   <depend>rclpy</depend>
 

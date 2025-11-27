@@ -1,4 +1,4 @@
- repositories:
+repositories:
   micro-ROS-Agent:
     type: git
     url: https://github.com/micro-ROS/micro-ROS-Agent

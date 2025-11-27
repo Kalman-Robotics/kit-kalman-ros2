@@ -3,21 +3,22 @@
 <package format="3">
   <name>kalman</name>
   <version>0.0.0</version>
-  <description>ROS2 packages for Kaia.ai software platform compatible robots</description>
-  <maintainer email="iliao@kaia.ai">Ilia O.</maintainer>
+  <description>ROS2 packages for Robotics Kalman Kit</description>
+  <maintainer email="kalmanrobotics@gmail.com">Kalman Robotics</maintainer>
   <license>Apache 2.0</license>
-  <url type="website">https://kaia.ai</url>
-  <url type="repository">https://github.com/kalman/kalman</url>
-  <url type="bugtracker">https://github.com/kalman/kalman/issues</url>
-  <author email="iliao@kaia.ai">Ilia O.</author>
+  <url type="website">https://kalmanrobotics.io/</url>
+  <url type="repository">https://github.com/Kalman-Robotics/kit-kalman-ros2</url>
+  <url type="bugtracker">https://github.com/Kalman-Robotics/kit-kalman-ros2/issues</url>
 
   <depend>rclpy</depend>
   <exec_depend>kalman_bringup</exec_depend>
+  <!-- <exec_depend>kalman_control</exec_depend> -->
+  <exec_depend>kalman_description</exec_depend> 
+  <!-- <exec_depend>kalman_gazebo</exec_depend>   -->
   <exec_depend>kalman_interfaces</exec_depend>
   <exec_depend>kalman_telemetry</exec_depend>
   <exec_depend>kalman_teleop</exec_depend>
-  <exec_depend>kalman_web</exec_depend>
-  <exec_depend>kalman_description</exec_depend>
+  <exec_depend>kalman_utils</exec_depend>
   <exec_depend>makerspet_mini</exec_depend>
 
   <test_depend>ament_copyright</test_depend>
