@@ -132,6 +132,12 @@ ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:
 
 ## Demo de navegación autónoma
 
+
+https://github.com/user-attachments/assets/27162948-e6a4-496f-940a-d97bb359d9fe
+
+https://github.com/user-attachments/assets/a1f37ff9-4a41-4fec-8ec5-0f23e93b9023
+
+
 ---
 
 ## Agradecimientos especiales
