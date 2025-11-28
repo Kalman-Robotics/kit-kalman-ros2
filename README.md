@@ -15,6 +15,8 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
     - [2. Lanzamiento inicial del robot](#2-lanzamiento-inicial-del-robot)
     - [-  IMU](#---imu)
     - [- Mapeo](#--mapeo)
+    - [- Navegación autónoma](#--navegación-autónoma)
+  - [Demo de nave](#demo-de-nave)
   - [Agradecimientos especiales](#agradecimientos-especiales)
 
 ## Paquetes ROS2 para el Kit Kalman de Kalman Robotics
@@ -105,12 +107,32 @@ ros2 run kalman_utils imu_calibration
 ```
 ros2 launch kalman_utils madgwick.launch.py
 ```
+Para guardar el mapa generado:
+```
+ros2 run nav2_map_server map_saver_cli -f mapa_kalman
+```
 
 ### - Mapeo
 Se lanza Cartographer para mapeo y localización:
 ```
 ros2 launch kalman_bringup cartographer.launch.py use_sim_time:=false
 ```
+
+### - Navegación autónoma
+- Los archivos del mapa deben estar en el directorio `map` dentro del paquete `kalman_bringup`. Sus nombres deben ser `mapa_kalman.yaml` y `mapa_kalman.pgm`.
+- Luego, lanzar la navegación sin SLAM:
+```
+ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:=kalman_description slam:=False
+```
+- Al abrirse RViz, establecer la posición inicial del robot utilizando la herramienta "2D Pose Estimate".
+- Para mejorar la localización, puede girar el robot manualmente o utilizar el teleoperador.
+- En RViz, utilizar la herramienta "2D Nav Goal" para especificar la ubicación objetivo; el robot se desplazará automáticamente hacia esa ubicación utilizando el mapa existente.
+
+---
+
+## Demo de navegación autónoma
+
+---
 
 ## Agradecimientos especiales
 Agradecemos especialmente al equipo de Kaia.ai. Este trabajo en ROS2 se ha desarrollado tomando como base su trabajo y recursos; muchas de las ideas y la arquitectura inicial provienen de su aporte. El repositorio presentando aquí es una adaptación y modificación del trabajo original de [Kaia.ai](https://blog.kaia.ai/) para integrarlo con ROS2 y las particularidades del Kit Kalman. 
