@@ -14,12 +14,12 @@ Controlar un robot (físico o simulado) usando un teclado.
 ### Uso simple
 Inicia el teleop por teclado para el modelo de robot predeterminado. 
 ```
-ros2 run kaiaai_teleop teleop_keyboard
+ros2 run kalman_teleop teleop_keyboard
 ```
 
 Ahora deberías poder controlar tu robot usando el teclado de tu PC.
 ```
-root@e3043f4ccd4c:/ros_ws# ros2 run kaiaai_teleop teleop_keyboard
+root@e3043f4ccd4c:/ros_ws# ros2 run kalman_teleop teleop_keyboard
 YAML file name : /ros_ws/install/makerspet_mini/share/makerspet_mini/config/teleop_keyboard.yaml
 Max linear velocity 0.200        Max angular velocity 3.860
 Control Kaia.ai-compatible Robot
@@ -41,12 +41,12 @@ Inicia el teleop por teclado para una configuración específica.
 
 <!-- - Inicia el teleop por teclado para el modelo de robot.
 ```
-ros2 run kaiaai_teleop teleop_keyboard robot_model:=makerspet_loki
+ros2 run kalman_teleop teleop_keyboard robot_model:=makerspet_loki
 ``` -->
 
 - Inicia el teleop por teclado usando el archivo de configuración `/path/to/teleop_keyboard.yaml`.
 ```
-ros2 run kaiaai_teleop teleop_keyboard --ros-args --params-file /path/to/teleop_keyboard.yaml
+ros2 run kalman_teleop teleop_keyboard --ros-args --params-file /path/to/teleop_keyboard.yaml
 ```
 
 ## Archivo de configuración

@@ -85,13 +85,13 @@ def generate_launch_description():
         Node(
             package='joint_state_publisher',
             executable='joint_state_publisher',
-#            condition=UnlessCondition(LaunchConfiguration('gui'))
+            # condition=UnlessCondition(LaunchConfiguration('gui'))
             condition=LaunchConfigurationEquals('joints', 'nogui')
         ),
         Node(
             package='joint_state_publisher_gui',
             executable='joint_state_publisher_gui',
-#            condition=IfCondition(LaunchConfiguration('gui'))
+            # condition=IfCondition(LaunchConfiguration('gui'))
             condition=LaunchConfigurationEquals('joints', 'gui')
         )
     ])

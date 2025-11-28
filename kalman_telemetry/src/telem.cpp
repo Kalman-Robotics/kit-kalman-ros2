@@ -58,7 +58,7 @@ public:
   : Node(NODE_NAME)
   {
     this->declare_parameter("lidar.model", std::vector<std::string>({"YDLIDAR-X4", "LDROBOT-LD19"}));
-    this->declare_parameter("lidar.angle_offset_deg", std::vector<double>({0.0, -180.0}));
+    this->declare_parameter("lidar.angle_offset_deg", std::vector<double>({0.0, 0.0}));
     this->declare_parameter("lidar.clockwise", std::vector<bool>({true, true}));
     this->declare_parameter("lidar.pub_scan_size", std::vector<int>({720, 360}));
     this->declare_parameter("lidar.range_min_meters", std::vector<double>({0.15, 0.15}));
@@ -66,7 +66,7 @@ public:
     this->declare_parameter("lidar.intensity", std::vector<bool>({false, false}));
 
     this->declare_parameter("laser_scan.topic_name_pub", "scan");
-    this->declare_parameter("laser_scan.frame_id", "base_scan");
+    this->declare_parameter("laser_scan.frame_id", "laser_link");
     this->declare_parameter("laser_scan.lidar_model", "YDLIDAR-X4");
     this->declare_parameter("laser_scan.mask_radius_meters", 0.0);
     this->declare_parameter("laser_scan.discard_broken_scans", false);
