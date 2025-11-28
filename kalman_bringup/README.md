@@ -6,6 +6,7 @@
     - [Publicar el urdf del robot y visualizarlo en RViz](#publicar-el-urdf-del-robot-y-visualizarlo-en-rviz)
     - [Lanzamiento inicial del robot](#lanzamiento-inicial-del-robot)
     - [Mapeo](#mapeo)
+    - [Navegación utilizando un mapa existente](#navegación-utilizando-un-mapa-existente)
     - [Monitoreo por RViz](#monitoreo-por-rviz)
 
 
@@ -58,9 +59,24 @@ Publica los tópicos:
 - `/tf_static` : Publica las transformaciones estáticas del robot.
 
 ### Mapeo
+Se utiliza Cartographer para el mapeo SLAM.
 ```
-ros2 launch kalman_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false
+ros2 launch kalman_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false robot_model:=kalman_description
 ```
+Para guardar el mapa generado:
+```
+ros2 run nav2_map_server map_saver_cli -f mapa_kalman
+```
+
+### Navegación utilizando un mapa existente
+- Los archivos del mapa deben estar en el directorio `map` dentro del paquete `kalman_bringup`. Sus nombres deben ser `mapa_kalman.yaml` y `mapa_kalman.pgm`.
+- Luego, lanzar la navegación sin SLAM:
+```
+ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:=kalman_description slam:=False
+```
+- Al abrirse RViz, establecer la posición inicial del robot utilizando la herramienta "2D Pose Estimate".
+- Para mejorar la localización, puede girar el robot manualmente o utilizar el teleoperador.
+- En RViz, utilizar la herramienta "2D Nav Goal" para especificar la ubicación objetivo; el robot se desplazará automáticamente hacia esa ubicación utilizando el mapa existente.
 
 ### Monitoreo por RViz
 ```

@@ -83,9 +83,9 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'map',
             default_value=os.path.join(
-                get_package_share_path('kalman_gazebo'),
+                get_package_share_path('kalman_bringup'),
                 'map',
-                'living_room.yaml'),
+                'mapa_kalman.yaml'),
             description='Full path to an existing map file'
         ),
         DeclareLaunchArgument(

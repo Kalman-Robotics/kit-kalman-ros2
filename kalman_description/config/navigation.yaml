@@ -42,7 +42,7 @@ amcl:
 bt_navigator:
   ros__parameters:
     global_frame: "map"
-    robot_base_frame: "base_link"
+    robot_base_frame: "base_footprint"
     odom_topic: /odom
     bt_loop_duration: 10
     wait_for_service_timeout: 5000
@@ -74,10 +74,10 @@ bt_navigator:
       - nav2_goal_updated_condition_bt_node
       - nav2_globally_updated_goal_condition_bt_node
       - nav2_is_path_valid_condition_bt_node
-      - nav2_are_error_codes_active_condition_bt_node
-      - nav2_would_a_controller_recovery_help_condition_bt_node
-      - nav2_would_a_planner_recovery_help_condition_bt_node
-      - nav2_would_a_smoother_recovery_help_condition_bt_node
+      # - nav2_are_error_codes_active_condition_bt_node
+      # - nav2_would_a_controller_recovery_help_condition_bt_node
+      # - nav2_would_a_planner_recovery_help_condition_bt_node
+      # - nav2_would_a_smoother_recovery_help_condition_bt_node
       - nav2_initial_pose_received_condition_bt_node
       - nav2_reinitialize_global_localization_service_bt_node
       - nav2_rate_controller_bt_node
@@ -206,7 +206,7 @@ local_costmap:
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: "odom"
-      robot_base_frame: "base_link"
+      robot_base_frame: "base_footprint"
       rolling_window: true
       width: 3
       height: 3
@@ -217,8 +217,8 @@ local_costmap:
         plugin: "nav2_costmap_2d::InflationLayer"
 #       cost_scaling_factor: 3.0
         cost_scaling_factor: 2.58
-#       inflation_radius: 0.0725
-        inflation_radius: 0.02
+#       inflation_radius: 0.02
+        inflation_radius: 0.0725
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
         enabled: True
@@ -251,7 +251,7 @@ global_costmap:
       update_frequency: 2.0
       publish_frequency: 2.0
       global_frame: "map"
-      robot_base_frame: "base_link"
+      robot_base_frame: "base_footprint"
       robot_radius: 0.0625
       resolution: 0.05
       track_unknown_space: true
@@ -285,7 +285,7 @@ global_costmap:
 # file & provide full path to map below. If CLI map configuration or launch default is provided, that will be used.
 map_server:
   ros__parameters:
-#   yaml_filename: ""
+    yaml_filename: ""
     frame_id: "map"
     topic_name: "map"
 
@@ -337,7 +337,7 @@ behavior_server:
       plugin: "nav2_behaviors/AssistedTeleop"
     local_frame: "odom"
     global_frame: "map"
-    robot_base_frame: "base_link"
+    robot_base_frame: "base_footprint"
     transform_tolerance: 0.1
     simulate_ahead_time: 2.0
     max_rotational_vel: 1.0
@@ -360,8 +360,8 @@ velocity_smoother:
     smoothing_frequency: 20.0
     scale_velocities: False
     feedback: "OPEN_LOOP"
-    max_velocity: [0.26, 0.0, 1.0]
-    min_velocity: [-0.26, 0.0, -1.0]
+    max_velocity: [0.13, 0.0, 1.0]
+    min_velocity: [-0.13, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
     odom_topic: "odom"

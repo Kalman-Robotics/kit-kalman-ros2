@@ -14,20 +14,14 @@ ros2 topic echo /scan
 FULL LAUNCH
 ros2 launch kalman_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true use_uros:=false
 
-
-ros2 launch kalman_bringup cartographer.launch.py use_sim_time:=false
+MAPPING
+ros2 launch kalman_bringup cartographer.launch.py use_sim_time:=false robot_model:=kalman_description
 ros2 run nav2_map_server map_saver_cli -f mapa_kalman
 
+NAVIGATION
+ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:=kalman_description slam:=False
 
 
 
-
-
-
-
-
-# Specify target location;; robot self-drives using an existing map
-ros2 launch kaiaai_bringup navigation.launch.py map:=$HOME/maps/map.yaml
-
-# Launch SLAM (simultaneous localization and mapping) - navigate and map simultaneously
-ros2 launch kaiaai_bringup navigation.launch.py slam:=True
+---
+ros2 run nav2_map_server map_server --ros-args   -p yaml_filename:=/home/sinso/ros2_ws/install/kalman_bringup/share/kalman_bringup/map/mapa_kalman.yaml -p use_sim_time:=false
