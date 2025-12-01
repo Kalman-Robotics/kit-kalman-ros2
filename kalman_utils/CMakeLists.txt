@@ -15,14 +15,19 @@ find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(kalman_interfaces REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(tf2 REQUIRED)
 
 add_executable(imu src/imu.cpp)
-ament_target_dependencies(imu rclcpp ament_index_cpp sensor_msgs kalman_interfaces)
+ament_target_dependencies(imu rclcpp ament_index_cpp sensor_msgs tf2 kalman_interfaces)
 target_link_libraries(imu yaml-cpp)
 
+add_executable(imu_processor src/imu_processor.cpp)
+ament_target_dependencies(imu_processor rclcpp sensor_msgs std_msgs kalman_interfaces tf2)
+target_link_libraries(imu_processor yaml-cpp)
 
 install(TARGETS
   imu
+  imu_processor
   DESTINATION lib/${PROJECT_NAME})
 
 install (DIRECTORY
