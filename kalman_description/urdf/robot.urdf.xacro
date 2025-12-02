@@ -6,15 +6,12 @@
     <!--xacro:include filename="$(find kalman_description)/urdf/xacro/inertial.xacro"/-->
 
     <xacro:arg name="use_sim" default='true'  />
-    <xacro:arg name="use_ros2_control" default="true" />
 
     <xacro:include filename="$(find kalman_description)/urdf/xacro/chassis.xacro"/>
     <xacro:include filename="$(find kalman_description)/urdf/xacro/wheel.xacro"/>
     <xacro:include filename="$(find kalman_description)/urdf/xacro/caster_wheel.xacro"/>
     <xacro:include filename="$(find kalman_description)/urdf/xacro/gazebo.xacro"/>
     <xacro:include filename="$(find kalman_description)/urdf/xacro/sensors.xacro"/>
-    <xacro:include filename="$(find kalman_description)/urdf/xacro/ros2_control.xacro"/>
-
 
     <!-- Construir robot -->
     <xacro:chassis/>
@@ -27,20 +24,12 @@
 
     <xacro:lidar_sensor/>
     <xacro:imu_sensor/>
-    <!--xacro:if value="$(arg use_sim)">
-        <xacro:if value="$(arg use_ros2_control)">
-            <xacro:ros2_control_gazebo/>
-        </xacro:if>
-        <xacro:unless value="$(arg use_ros2_control)">
-            <xacro:gazebo_plugin_drive/>
-        </xacro:unless>
+
+    <xacro:if value="$(arg use_sim)">
+        <xacro:gazebo_plugin_drive/>
         <xacro:friction_gazebo/>
         <xacro:gazebo_sensors/>
         <xacro:gazebo_materials/>
-    </xacro:if-->
-
-    <!--xacro:unless value="$(arg use_sim)">
-        <xacro:uvrobot_ros2_control/>
-    </xacro:unless-->
+    </xacro:if>
 
 </robot>

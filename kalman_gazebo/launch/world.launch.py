@@ -40,8 +40,16 @@ def make_nodes(context: LaunchContext, robot_model, use_sim_time, x_pose, y_pose
       'urdf',
       'robot.urdf.xacro')
 
-    robot_description = ParameterValue(Command(['xacro ', urdf_path_name]), value_type=str)
-
+    # robot_description = ParameterValue(Command(['xacro ', urdf_path_name]), value_type=str)
+    # robot_description = ParameterValue(Command(['xacro ', urdf_path_name, ' use_sim:=true']), value_type=str)
+    # Determine which description to use based on use_sim_time
+    if use_sim_time_str.lower() == 'true':
+        robot_description = ParameterValue(Command(['xacro ', urdf_path_name, ' use_sim:=true']), value_type=str)
+        print('--- Launching in simulation mode ---')
+    else:
+        robot_description = ParameterValue(Command(['xacro ', urdf_path_name]), value_type=str)
+        print('--- Launching in real robot mode ---')
+        
     sdf_path_name = os.path.join(
         get_package_share_path(robot_model_str),
         'sdf',
@@ -78,7 +86,8 @@ def make_nodes(context: LaunchContext, robot_model, use_sim_time, x_pose, y_pose
             executable='spawn_entity.py',
             arguments=[
                 '-entity', robot_model_str,
-                '-file', sdf_path_name,
+                # '-file', sdf_path_name,
+                '-topic', '/robot_description',
                 '-timeout', '180',
                 '-x', x_pose_str,
                 '-y', y_pose_str,

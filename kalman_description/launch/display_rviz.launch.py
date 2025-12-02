@@ -17,7 +17,7 @@ def generate_launch_description():
     #~~~~~~~~~~~~~~~~~~~~~~~~ PATHS ~~~~~~~~~~~~~~~~~~~~~~~~~~~+
     package_share = get_package_share_directory(package_description)
     
-    robot_desc_path = PathJoinSubstitution([package_share,'urdf', 'kalman.urdf.xacro'])
+    robot_desc_path = PathJoinSubstitution([package_share,'urdf', 'robot.urdf.xacro'])
     rviz_file = PathJoinSubstitution([package_share,'rviz','display.rviz'])
         
 

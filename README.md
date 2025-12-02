@@ -64,7 +64,7 @@ git submodule update --init --recursive
 ```
 rosdep update
 cd ~/kalman_ws
-rosdep install --from-paths src--ignore-src -r -y
+rosdep install --from-paths src --ignore-src -r -y
 ```
 </details>
 

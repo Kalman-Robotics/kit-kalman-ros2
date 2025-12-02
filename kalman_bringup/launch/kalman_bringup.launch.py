@@ -39,7 +39,7 @@ def generate_launch_description():
     telem_package_share = get_package_share_directory(package_telemetry)
     bringup_package_share = get_package_share_directory(package_bringup)
 
-    robot_desc_path = PathJoinSubstitution([package_share, 'urdf', 'kalman.urdf.xacro'])
+    robot_desc_path = PathJoinSubstitution([package_share, 'urdf', 'robot.urdf.xacro'])
     rviz_file = PathJoinSubstitution([bringup_package_share, 'rviz', 'bringup.rviz'])
     config_telem_path = PathJoinSubstitution([telem_package_share, 'config', 'telem.yaml'])
     config_override_path = PathJoinSubstitution([telem_package_share, 'config', 'telem.yaml'])
