@@ -16,7 +16,7 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
     - [-  IMU](#---imu)
     - [- Mapeo](#--mapeo)
     - [- Navegación autónoma](#--navegación-autónoma)
-  - [Demo de nave](#demo-de-nave)
+  - [Demo de navegación autónoma](#demo-de-navegación-autónoma)
   - [Agradecimientos especiales](#agradecimientos-especiales)
 
 ## Paquetes ROS2 para el Kit Kalman de Kalman Robotics
@@ -27,7 +27,7 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 - **kalman_interfaces**: definiciones de interfaces personalizados.
 - **kalman_telemetry**: gestión de la telemetría del robot.
 - **kalman_teleop**: control remoto del robot.
-- **kalman_utils**: utilidades varias para el robot.
+- **kalman_imu**: utilidades varias para el robot.
 - **makerspet_mini**: paquete ...
 
 ## Requisitos
@@ -94,28 +94,19 @@ ros2 launch kalman_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 us
 ```
 
 ### -  IMU
-- Instalamos lo siguiente:
+Este launch file inicia el nodo de procesamiento del IMU, incluyendo una autocalibración:
 ```
-sudo apt update
-sudo apt install ros-humble-imu-filter-madgwick
-```
-- Calibramos el IMU con:
-```
-ros2 run kalman_utils imu_calibration
-```
-- Lanzamos el launch file con nodo de publicación de mensajes IMU y filtro Madgwick:
-```
-ros2 launch kalman_utils madgwick.launch.py
-```
-Para guardar el mapa generado:
-```
-ros2 run nav2_map_server map_saver_cli -f mapa_kalman
+ros2 launch kalman_imu imu_processor.launch.py
 ```
 
 ### - Mapeo
 Se lanza Cartographer para mapeo y localización:
 ```
 ros2 launch kalman_bringup cartographer.launch.py use_sim_time:=false
+```
+Para guardar el mapa generado:
+```
+ros2 run nav2_map_server map_saver_cli -f mapa_kalman
 ```
 
 ### - Navegación autónoma

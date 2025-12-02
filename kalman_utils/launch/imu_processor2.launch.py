@@ -11,8 +11,8 @@ def generate_launch_description():
     
     imu_processor_node = Node(
         package='kalman_imu',
-        executable='imu_processor',
-        name='imu_processor',
+        executable='imu_processor2',
+        name='imu_processor2',
         output='screen',
         parameters=[{
             'imu.topic_name_sub': '/imu_telem',
@@ -20,9 +20,10 @@ def generate_launch_description():
             'imu.accel_scale': 16384.0,      # LSB/g for ±2g
             'imu.gyro_scale': 131.0,         # LSB/°/s for ±250°/s
             'imu.gravity_accel': 9.81,       # m/s²
-            'imu.complementary_alpha': 0.96,  # Complementary filter
+            'imu.complementary_alpha': 0.96, # Complementary filter
             'imu.calibration_samples': 1000, # Calibration samples
-            'imu.auto_calibrate': True       # Auto-calibrate on startup            
+            'imu.auto_calibrate': True,      # Auto-calibrate on startup
+            'imu.publish_rate': 50.0         # Hz - Publishing rate (adjust as needed: 10-100 Hz)
         }]
     )
     

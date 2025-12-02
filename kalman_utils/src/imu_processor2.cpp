@@ -7,6 +7,7 @@
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <fstream>
 #include <vector>
+#include <mutex>
 
 class IMUProcessorNode : public rclcpp::Node
 {
@@ -14,7 +15,8 @@ public:
   IMUProcessorNode()
   : Node("imu_processor_node"),
     calibration_done_(false),
-    calibration_sample_count_(0)
+    calibration_sample_count_(0),
+    data_ready_(false)
   {
     // Declare parameters
     this->declare_parameter("imu.topic_name_sub", "/imu_telem");
@@ -25,6 +27,7 @@ public:
     this->declare_parameter("imu.complementary_alpha", 0.96); // Complementary filter coefficient
     this->declare_parameter("imu.calibration_samples", 1000); // Number of samples for calibration
     this->declare_parameter("imu.auto_calibrate", true);      // Auto-calibrate on startup
+    this->declare_parameter("imu.publish_rate", 50.0);        // Hz - Publishing rate
 
     // Get parameters
     accel_scale_ = this->get_parameter("imu.accel_scale").as_double();
@@ -33,6 +36,7 @@ public:
     alpha_ = this->get_parameter("imu.complementary_alpha").as_double();
     calibration_samples_ = this->get_parameter("imu.calibration_samples").as_int();
     auto_calibrate_ = this->get_parameter("imu.auto_calibrate").as_bool();
+    double publish_rate = this->get_parameter("imu.publish_rate").as_double();
     
     deg_to_rad_ = M_PI / 180.0;
     rad_to_deg_ = 180.0 / M_PI;
@@ -66,6 +70,12 @@ public:
       this->get_parameter("imu.topic_name_pub").as_string(),
       10);
 
+    // Create timer for controlled publishing rate
+    auto timer_period = std::chrono::duration<double>(1.0 / publish_rate);
+    publish_timer_ = this->create_wall_timer(
+      std::chrono::duration_cast<std::chrono::milliseconds>(timer_period),
+      std::bind(&IMUProcessorNode::publish_timer_callback, this));
+
     RCLCPP_INFO(this->get_logger(), "====================================");
     RCLCPP_INFO(this->get_logger(), "IMU Processor Node started");
     RCLCPP_INFO(this->get_logger(), "====================================");
@@ -73,6 +83,7 @@ public:
                 this->get_parameter("imu.topic_name_sub").as_string().c_str());
     RCLCPP_INFO(this->get_logger(), "Publishing to: %s", 
                 this->get_parameter("imu.topic_name_pub").as_string().c_str());
+    RCLCPP_INFO(this->get_logger(), "Publishing rate: %.1f Hz", publish_rate);
     RCLCPP_INFO(this->get_logger(), "Complementary filter alpha: %.3f", alpha_);
 
     if (auto_calibrate_) {
@@ -238,6 +249,9 @@ private:
       return;
     }
 
+    // Lock mutex to safely update shared data
+    std::lock_guard<std::mutex> lock(data_mutex_);
+
     // Calculate time delta
     auto current_time = this->now();
     double dt = (current_time - last_time_).seconds();
@@ -276,16 +290,35 @@ private:
     while (yaw_ > 180.0) yaw_ -= 360.0;
     while (yaw_ < -180.0) yaw_ += 360.0;
 
+    // Store current data for publishing
+    current_accel_x_g_ = accel_x_g;
+    current_accel_y_g_ = accel_y_g;
+    current_accel_z_g_ = accel_z_g;
+    current_gyro_x_dps_ = gyro_x_dps;
+    current_gyro_y_dps_ = gyro_y_dps;
+    current_gyro_z_dps_ = gyro_z_dps;
+
+    data_ready_ = true;
+  }
+
+  void publish_timer_callback()
+  {
+    // Skip if calibration is not done or no data is ready
+    if (!calibration_done_ || !data_ready_) {
+      return;
+    }
+
+    // Lock mutex to safely read shared data
+    std::lock_guard<std::mutex> lock(data_mutex_);
+
     // Apply coordinate system correction
-    // Original: roll=X, pitch=Y, yaw=Z
-    // Corrected: roll=-Y, pitch=X, yaw=Z
     double corrected_roll = -pitch_;   // roll should be (-pitch)
     double corrected_pitch = roll_;    // pitch should be (roll)
     double corrected_yaw = yaw_;       // yaw is correct
 
     // Create Imu message
     auto imu_msg = sensor_msgs::msg::Imu();
-    imu_msg.header.stamp = current_time;
+    imu_msg.header.stamp = this->now();
     imu_msg.header.frame_id = "imu_link";
 
     // Convert Euler angles to quaternion
@@ -300,32 +333,36 @@ private:
     imu_msg.orientation.w = q.w();
 
     // Set linear acceleration (m/s²)
-    imu_msg.linear_acceleration.x = accel_x_g * gravity_;
-    imu_msg.linear_acceleration.y = accel_y_g * gravity_;
-    imu_msg.linear_acceleration.z = accel_z_g * gravity_;
+    imu_msg.linear_acceleration.x = current_accel_x_g_ * gravity_;
+    imu_msg.linear_acceleration.y = current_accel_y_g_ * gravity_;
+    imu_msg.linear_acceleration.z = current_accel_z_g_ * gravity_;
 
     // Set angular velocity (rad/s)
-    imu_msg.angular_velocity.x = gyro_x_dps * deg_to_rad_;
-    imu_msg.angular_velocity.y = gyro_y_dps * deg_to_rad_;
-    imu_msg.angular_velocity.z = gyro_z_dps * deg_to_rad_;
+    imu_msg.angular_velocity.x = current_gyro_x_dps_ * deg_to_rad_;
+    imu_msg.angular_velocity.y = current_gyro_y_dps_ * deg_to_rad_;
+    imu_msg.angular_velocity.z = current_gyro_z_dps_ * deg_to_rad_;
 
     // Publish message
     imu_pub_->publish(imu_msg);
-    RCLCPP_INFO(this->get_logger(), 
-                "Euler Angles - Roll: %.2f° Pitch: %.2f° Yaw: %.2f°",
-                corrected_roll, corrected_pitch, corrected_yaw);
-    // // Log info periodically (every 50 messages ~ 0.5s at 100Hz)
-    // static int msg_count = 0;
-    // if (++msg_count >= 50) {
-    //   msg_count = 0;
-    //   RCLCPP_INFO(this->get_logger(), 
-    //               "Euler Angles - Roll: %.2f° Pitch: %.2f° Yaw: %.2f°",
-    //               corrected_roll, corrected_pitch, corrected_yaw);
-    // }
+
+    // Log info periodically (every ~1 second based on publish rate)
+    static int msg_count = 0;
+    int log_interval = static_cast<int>(this->get_parameter("imu.publish_rate").as_double());
+    if (++msg_count >= log_interval) {
+      msg_count = 0;
+      RCLCPP_INFO(this->get_logger(), 
+                  "Euler Angles - Roll: %.2f° Pitch: %.2f° Yaw: %.2f°",
+                  corrected_roll, corrected_pitch, corrected_yaw);
+    }
   }
 
   rclcpp::Subscription<kalman_interfaces::msg::ImuData>::SharedPtr imu_sub_;
   rclcpp::Publisher<sensor_msgs::msg::Imu>::SharedPtr imu_pub_;
+  rclcpp::TimerBase::SharedPtr publish_timer_;
+
+  // Mutex for thread-safe data access
+  std::mutex data_mutex_;
+  bool data_ready_;
 
   // Scaling parameters
   double accel_scale_;
@@ -351,6 +388,10 @@ private:
 
   // Euler angles (degrees)
   double roll_, pitch_, yaw_;
+
+  // Current sensor data
+  double current_accel_x_g_, current_accel_y_g_, current_accel_z_g_;
+  double current_gyro_x_dps_, current_gyro_y_dps_, current_gyro_z_dps_;
 
   // Timing
   rclcpp::Time last_time_;
