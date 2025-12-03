@@ -16,9 +16,12 @@
             </visual>
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
-                <geometry>
+                <!-- <geometry>
                     <mesh filename="file://$(find kalman_description)/meshes/caster_wheel.stl" scale="0.001 0.001 0.001"/>
-                </geometry>
+                </geometry> -->
+                <geometry>
+                    <sphere radius="${caster_radius}"/>
+                </geometry>                
             </collision>
             <xacro:inertial_sphere 
                 mass="${caster_mass}" 

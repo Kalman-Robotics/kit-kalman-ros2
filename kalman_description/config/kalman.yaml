@@ -1,6 +1,6 @@
 robot_model:
-  name: makerspet_mini
-  manufacturer: makerspet.com
+  name: kalman_description
+  manufacturer: kalmanrobotics.io
   speed:
     mapping: 0.1
     max: 0.2

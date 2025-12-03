@@ -17,6 +17,7 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
     - [- Mapeo](#--mapeo)
     - [- Navegación autónoma](#--navegación-autónoma)
   - [Demo de navegación autónoma](#demo-de-navegación-autónoma)
+  - [Uso del repositorio para modificaciones del robot](#uso-del-repositorio-para-modificaciones-del-robot)
   - [Agradecimientos especiales](#agradecimientos-especiales)
 
 ## Paquetes ROS2 para el Kit Kalman de Kalman Robotics
@@ -28,7 +29,6 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 - **kalman_telemetry**: gestión de la telemetría del robot.
 - **kalman_teleop**: control remoto del robot.
 - **kalman_imu**: utilidades varias para el robot.
-- **makerspet_mini**: paquete ...
 
 ## Requisitos
 
@@ -80,6 +80,7 @@ source install/setup.bash
 </details>
 
 ## Uso de los paquetes ROS2 para el robot
+
 ### 1. Ejecutar el agente de micro-ROS
 Ejecutamos el agente de micro-ROS en la computadora para establecer la comunicación con el robot, de esta manera podremos interactuar con los tópicos publicados por el robot.
 ```
@@ -128,6 +129,15 @@ https://github.com/user-attachments/assets/27162948-e6a4-496f-940a-d97bb359d9fe
 
 https://github.com/user-attachments/assets/a1f37ff9-4a41-4fec-8ec5-0f23e93b9023
 
+
+---
+
+## Uso del repositorio para modificaciones del robot
+`kalman_description` es el paquete del modelo de robot predeterminado. 
+
+Si utiliza un modelo modificado del robot deberá indicarlo con el argumento `robot_model:=paquete_model_modificado` en los archivos de lanzamiento correspondientes.
+
+Cabe resaltar que otros paquetes de descripción de robots deberán seguir la misma estructura que `kalman_description` para asegurar la compatibilidad con los archivos de lanzamiento y demás paquetes dependientes.
 
 ---
 

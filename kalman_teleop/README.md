@@ -20,7 +20,7 @@ ros2 run kalman_teleop teleop_keyboard
 Ahora deberías poder controlar tu robot usando el teclado de tu PC.
 ```
 root@e3043f4ccd4c:/ros_ws# ros2 run kalman_teleop teleop_keyboard
-YAML file name : /ros_ws/install/makerspet_mini/share/makerspet_mini/config/teleop_keyboard.yaml
+YAML file name : /ros_ws/install/kalman_description/share/kalman_description/config/teleop_keyboard.yaml
 Max linear velocity 0.200        Max angular velocity 3.860
 Control Kaia.ai-compatible Robot
 --------------------------------

@@ -26,7 +26,7 @@ Si el patrón de parpadeo indica un error, conecte el PC a la placa ESP32 del ro
 
 ### Publicar el urdf del robot y visualizarlo en RViz
 ```
-ros2 launch kalman_bringup inspect_urdf.launch.py joints:=none robot_model:=makerspet_mini
+ros2 launch kalman_bringup inspect_urdf.launch.py joints:=none robot_model:=kalman_description
 ```
 Suscribe a tópicos:
 - `/joint_states` : Suscribe los estados de las articulaciones del robot.
@@ -61,7 +61,7 @@ Publica los tópicos:
 ### Mapeo
 Se utiliza Cartographer para el mapeo SLAM.
 ```
-ros2 launch kalman_bringup cartographer.launch.py robot_model:=makerspet_mini use_sim_time:=false robot_model:=kalman_description
+ros2 launch kalman_bringup cartographer.launch.py robot_model:=kalman_description use_sim_time:=false robot_model:=kalman_description
 ```
 Para guardar el mapa generado:
 ```

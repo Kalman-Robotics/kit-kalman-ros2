@@ -1,81 +1,30 @@
-# kalman_gazebo package [PENDIENTE]
+# kalman_gazebo package 
 
-- [kalman\_gazebo package \[PENDIENTE\]](#kalman_gazebo-package-pendiente)
-  - [Simulate the default robot model](#simulate-the-default-robot-model)
-  - [Simulate a different robot model](#simulate-a-different-robot-model)
-  - [Run SLAM, generate a map](#run-slam-generate-a-map)
-  - [Navigate to a goal](#navigate-to-a-goal)
+- [kalman\_gazebo package](#kalman_gazebo-package)
+  - [Uso](#uso)
+  - [Aplicaciones](#aplicaciones)
+    - [Comando por Teclado](#comando-por-teclado)
+    - [Navegación Autónoma](#navegación-autónoma)
 
-## Simulate the default robot model
-- Run each command below in a separate terminal window
-- Optionaly, set the world to be launched using the `world` argument,
-e.g. `world:=empty_world.world`. `kaiaai_world.world` launches by default
-- Keep in mind that launching the Gazebo simulator for the very first time can take a minute
-or two - please be patient
+## Uso
+Para lanzar la simulación de Gazebo con el robot Kalman, use el siguiente comando:
 ```
-ros2 launch kaiaai_gazebo world.launch.py
-ros2 run kaiaai_teleop teleop_keyboard
-ros2 launch kaiaai_gazebo self_drive_gazebo.launch.py
-ros2 launch kaiaai_bringup rviz2.launch.py
-```
-- `world.launch.py` launches Gazebo simulator populated with a world an instance of your bot
-- `teleop_keyboard` lets you drive the bot manually
-- `self_drive_gazebo` makes the bot self-drive around in Gazebo simulations
-- `rviz2.launch.py` launches Rviz viewer. You will need Rviz viewer for navigation (see below)
-to manually set the bot's initial position estimate as well as specify navigation goals,
-i.e. where you want your bot to move
-
-Press CTRL-C one or more times in each terminal window to stop the simulation.
-
-To open a new terminal window, launch a new a Linux or Windows shell (outside Docker) and run:
-```
-docker exec -it kaiaai-ros-dev-humble bash
+ros2 launch kalman_gazebo simulation.launch.py robot_model:=kalman_description
 ```
 
-## Simulate a different robot model
-- Select the robot model you would like to simulate by setting `description` to the robot description
-package name, e.g. `description:=awesome_droid`. This is useful if you are modding an
-existing robot model
-- If the `description` argument is omitted, the value of `KAIAAI_ROBOT` environment
-variable will be used. If that environment variable is not set, `description` will default
-to `makerspet_snoopy`
+## Aplicaciones
+Para ejecutar las utilidades de los paquetes de Kalman, asegurese de configurar el argumento `use_sim_time` a `true` para sincronizar con el tiempo simulado de Gazebo.
+
+### Comando por Teclado
+Para controlar el robot Kalman en la simulación de Gazebo usando el teclado, use el siguiente comando:
 ```
-ros2 launch kaiaai_gazebo world.launch.py description:=awesome_droid
-ros2 run kaiaai_teleop teleop_keyboard
-ros2 launch kaiaai_gazebo self_drive_gazebo.launch.py description:=awesome_droid
-ros2 launch kaiaai_bringup rviz2.launch.py description:=awesome_droid
+ros2 run kalman_teleop teleop_keyboard 
 ```
 
-## Run SLAM, generate a map
-Run each command below in a separate terminal window.
+### Navegación Autónoma
+Para lanzar la navegación autónoma en un entorno simulado, use el siguiente comando:
 ```
-ros2 launch kaiaai_gazebo world.launch.py
-ros2 launch kaiaai_cartographer cartographer.launch.py use_sim_time:=true
-ros2 launch kaiaai_gazebo self_drive_gazebo.launch.py
-ros2 run nav2_map_server map_saver_cli -f $HOME/my_map
+ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:=kalman_description slam:=False map:=/ros2_ws/src/kalman_bringup/map/living_room.yaml
 ```
-- `cartographer.launch.py` launches the SLAM package and starts generating a map. You can see the map
-gradually appearing in Rviz viewer.
-- run `map_saver_cli` to save the map after the bot has driven around long enough to thoroughly map the world.
 
-Press CTRL-C one or more times in each terminal window to stop the simulation.
-
-## Navigate to a goal
-```
-ros2 launch kaiaai_gazebo world.launch.py
-ros2 launch kaiaai_navigation navigation.launch.py use_sim_time:=true map:=$HOME/my_map.yaml
-```
-- `navigation.launch.py` launches the navigation package and loads the map you created in the previous step
-- Before your bot can navigate, i.e. self-drive itself, to a destination of your choice, you must
-manually specify the approximate initial location of your bot.
-    - Click the `2D Pose Estimate` button on the upper toolbar in Rviz
-    - Click on the map at the location where your bot currently is. Hold your mouse button down and drag your mouse in the direction your bot is facing. Now you can release your mouse button. Rviz should show your bot's location on the map.
-- Specify where you would like your bot to navigate, i.e. the goal location
-    - Click the `Nav2 Goal` button on the upper toolbar in Rviz
-    - Clock on the map at the navigation goal location. Hold your mouse button down and drag your mouse in the direction you want your bot to face once it arrives to its goal location. Now you can release your mouse button. Rviz should display your bot's planned path and your bot should start moving.
-
-Press CTRL-C one or more times in each terminal window to stop the simulation.
-
-
-
-ros2 launch kalman_gazebo world.launch.py robot_model:=kalman_description world:=vacio.world
+![ejm navegación](images/navigation.png)
