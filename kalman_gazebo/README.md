@@ -75,3 +75,7 @@ manually specify the approximate initial location of your bot.
     - Clock on the map at the navigation goal location. Hold your mouse button down and drag your mouse in the direction you want your bot to face once it arrives to its goal location. Now you can release your mouse button. Rviz should display your bot's planned path and your bot should start moving.
 
 Press CTRL-C one or more times in each terminal window to stop the simulation.
+
+
+
+ros2 launch kalman_gazebo world.launch.py robot_model:=kalman_description world:=vacio.world

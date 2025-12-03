@@ -5,28 +5,22 @@
 
 
     <xacro:macro name="gazebo_materials">
-
         <!-- Marcador frontal (lado positivo X) -->
         <gazebo reference="chassis_link">
             <material>Gazebo/DarkGrey</material>    
         </gazebo>
-
         <gazebo reference="prisma_link">
             <material>Gazebo/GreyTransparent</material>    
         </gazebo>
-
         <gazebo reference="caster_joint">
             <preserveFixedJoint>true</preserveFixedJoint>
         </gazebo>
-
         <gazebo reference="base_lidar_joint">
             <preserveFixedJoint>true</preserveFixedJoint>
         </gazebo>
-
         <gazebo reference="caster_wheel">
             <material>Gazebo/Grey</material>
         </gazebo>
-
         <gazebo reference="left_wheel"> 
            <material>Gazebo/Grey</material>
         </gazebo>
@@ -42,8 +36,10 @@
         <gazebo>
             <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
                 <update_rate>30</update_rate>
-                <left_joint>wheel_left_joint</left_joint>
-                <right_joint>wheel_right_joint</right_joint>
+                <!-- <left_joint>wheel_left_joint</left_joint>
+                <right_joint>wheel_right_joint</right_joint> -->
+                <left_joint>wheel_right_joint</left_joint>
+                <right_joint>wheel_left_joint</right_joint>                
                 <wheel_separation>${wheel_separation}</wheel_separation>
                 <wheel_diameter>${wheel_radius * 2}</wheel_diameter>
                 <max_wheel_acceleration>1.0</max_wheel_acceleration>
@@ -75,20 +71,42 @@
         <gazebo reference="caster_joint_1">
             <preserveFixedJoint>true</preserveFixedJoint>
         </gazebo>
-
+        <gazebo reference="caster_joint_2">
+            <preserveFixedJoint>true</preserveFixedJoint>
+        </gazebo>        
+        <!-- Friction for left and right caster wheels -->
         <gazebo reference="caster_wheel_1">
             <kp>100000.0</kp>
             <kd>100000.0</kd>
             <mu1>0.0</mu1>
             <mu2>0.0</mu2>
         </gazebo>
+        <gazebo reference="caster_wheel_2">
+            <kp>100000.0</kp>
+            <kd>100000.0</kd>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
+        </gazebo>
+        <!-- Friction for left and right wheels -->
+        <gazebo reference="left_wheel">
+            <kp>100000.0</kp>
+            <kd>100000.0</kd>
+            <mu1>1.0</mu1>
+            <mu2>1.0</mu2>
+        </gazebo>
+        <gazebo reference="right_wheel">
+            <kp>100000.0</kp>
+            <kd>100000.0</kd>
+            <mu1>1.0</mu1>
+            <mu2>1.0</mu2>
+        </gazebo>          
     </xacro:macro>
 
     <xacro:macro name="gazebo_sensors">
         <gazebo reference="laser_link">
             <sensor name="laser_scan_sensor" type="ray">
                 <always_on>1</always_on>
-                <visualize>1</visualize>
+                <visualize>0</visualize>
                 <update_rate>10</update_rate>
                 <ray>
                     <scan>
