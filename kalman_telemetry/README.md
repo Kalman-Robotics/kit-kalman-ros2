@@ -3,11 +3,56 @@
 Este paquete se comunica con el robot de Kalman, recibe datos de telemetría cruda de los sensores por WiFi usando Micro-ROS y vuelve a publicar la telemetría en tópicos estándares de ROS2.
 
 - [kalman\_telemetry package](#kalman_telemetry-package)
+  - [Ejecutables](#ejecutables)
+    - [`telem`](#telem)
+    - [`telem_test_pub`](#telem_test_pub)
   - [Uso](#uso)
     - [Con robot conectado via Micro-ROS](#con-robot-conectado-via-micro-ros)
     - [Desarrollo y pruebas sin robot](#desarrollo-y-pruebas-sin-robot)
-  - [Detalle de telemetría del robot](#detalle-de-telemetría-del-robot)
+  - [Detalle del mensaje de telemetría proveniente robot](#detalle-del-mensaje-de-telemetría-proveniente-robot)
   - [Notas](#notas)
+
+## Ejecutables
+
+### `telem`
+Nodo principal de telemetría que procesa datos del robot y los republica en tópicos estándar de ROS2.
+
+**Parámetros:**
+- `laser_scan.topic_name_pub`: Nombre del tópico de publicación del escaneo láser (default: `scan`)
+- `laser_scan.frame_id`: Frame ID del sensor láser (default: `laser_link`)
+- `laser_scan.lidar_model`: Modelo del LiDAR (default: `YDLIDAR-X4`)
+  - Modelos soportados: `YDLIDAR-X4`, `LDROBOT-LD19`, `XIAOMI-LDS02RR`, `YDLIDAR-X2-X2L`, `3IROBOTIX-DELTA-2G`, `YDLIDAR-X3-PRO`, `YDLIDAR-X3`, `NEATO-XV11`, `SLAMTEC-RPLIDAR-A1`, `3IROBOTIX-DELTA-2A`, `3IROBOTIX-DELTA-2B`, `LDROBOT-LD14P`, `CAMSENSE-X1`, `YDLIDAR-SCL`
+- `laser_scan.mask_radius_meters`: Radio de máscara para filtrar puntos cercanos (default: `0.0`)
+- `laser_scan.discard_broken_scans`: Descartar escaneos rotos (default: `false`)
+- `telemetry.topic_name_sub`: Nombre del tópico de suscripción de telemetría (default: `telemetry`)
+- `tf.frame_id`: Frame ID de transformación (default: `odom`)
+- `tf.child_frame_id`: Frame ID hijo de transformación (default: `base_footprint`)
+- `joints.topic_name_pub`: Nombre del tópico de publicación de estados de articulaciones (default: `joint_states`)
+- `joints.wheel.right`: Nombre de la articulación de rueda derecha (default: `wheel_right_joint`)
+- `joints.wheel.left`: Nombre de la articulación de rueda izquierda (default: `wheel_left_joint`)
+- `odometry.frame_id`: Frame ID de odometría (default: `odom`)
+- `odometry.child_frame_id`: Frame ID hijo de odometría (default: `base_footprint`)
+- `odometry.topic_name_pub`: Nombre del tópico de publicación de odometría (default: `odom`)
+- `battery.topic_name_pub`: Nombre del tópico de publicación del estado de batería (default: `battery_state`)
+- `battery.voltage_full`: Voltaje de batería completa en voltios (default: `4.1` V)
+- `battery.voltage_empty`: Voltaje de batería vacía en voltios (default: `3.5` V)
+- `wifi.topic_name_pub`: Nombre del tópico de publicación del estado WiFi (default: `wifi_state`)
+- `control_status.topic_name_pub`: Nombre del tópico de publicación del estado de control (default: `control_status`)
+
+**Configuración avanzada de LiDAR:**
+- `lidar.model`: Vector de modelos de LiDAR soportados
+- `lidar.angle_offset_deg`: Vector de offsets de ángulo en grados
+- `lidar.clockwise`: Vector de dirección de rotación (sentido horario)
+- `lidar.pub_scan_size`: Vector de tamaño de escaneo publicado
+- `lidar.range_min_meters`: Vector de rango mínimo en metros
+- `lidar.range_max_meters`: Vector de rango máximo en metros
+- `lidar.intensity`: Vector de uso de intensidad
+
+### `telem_test_pub`
+Nodo de prueba que publica datos de telemetría ficticios sin necesidad de un robot físico.
+
+**Parámetros:**
+Este ejecutable no tiene parámetros configurables. Publica automáticamente en el tópico `/telemetry` con datos de prueba simulados.
 
 ## Uso
 ### Con robot conectado via Micro-ROS
@@ -31,7 +76,7 @@ Si no dispone de un robot, también puede ejecutar el nodo de prueba que publica
 ros2 run kaiaai_telemetry test_pub
 ```
 
-## Detalle de telemetría del robot
+## Detalle del mensaje de telemetría proveniente robot
 Telemetría recibida del robot en el tópico /telemetry:
 
 ```

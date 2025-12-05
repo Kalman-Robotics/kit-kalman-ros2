@@ -67,7 +67,7 @@ class TeleopKeyboardNode(Node):
         self.linear_velocity = 0.0
         self.angular_velocity = 0.0
 
-        print('Control Kaia.ai-compatible Robot')
+        print('Control Kalman-compatible Robot')
         print('--------------------------------')
         print('Moving around:')
         print('      w')

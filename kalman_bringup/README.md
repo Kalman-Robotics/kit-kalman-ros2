@@ -2,6 +2,14 @@
 
 - [kalman\_bringup package](#kalman_bringup-package)
   - [Consideraciones previas](#consideraciones-previas)
+  - [Archivos Launch](#archivos-launch)
+    - [`kalman_bringup.launch.py`](#kalman_bringuplaunchpy)
+    - [`inspect_urdf.launch.py`](#inspect_urdflaunchpy)
+    - [`cartographer.launch.py`](#cartographerlaunchpy)
+    - [`navigation.launch.py`](#navigationlaunchpy)
+    - [`occupancy_grid.launch.py`](#occupancy_gridlaunchpy)
+    - [`monitor_robot.launch.py`](#monitor_robotlaunchpy)
+    - [`explore.launch.py`](#explorelaunchpy)
   - [Uso](#uso)
     - [Publicar el urdf del robot y visualizarlo en RViz](#publicar-el-urdf-del-robot-y-visualizarlo-en-rviz)
     - [Lanzamiento inicial del robot](#lanzamiento-inicial-del-robot)
@@ -21,6 +29,75 @@
 
 > [!NOTE] Puede verificar la conexión exitosa observando el patrón de parpadeo del LED de la placa ESP32.
 Si el patrón de parpadeo indica un error, conecte el PC a la placa ESP32 del robot mediante un cable USB, abra un Monitor Serie.
+
+## Archivos Launch
+
+### `kalman_bringup.launch.py`
+Lanzamiento principal del robot con telemetría, micro-ROS (opcional), robot_state_publisher y visualización en RViz (opcional).
+
+**Argumentos:**
+- `use_sim_time`: Usar reloj de simulación (Gazebo) si es verdadero (default: `false`)
+  - Valores aceptados: `true`, `false`
+- `use_rviz`: Lanzar RViz2 si es verdadero (default: `true`)
+  - Valores aceptados: `true`, `false`
+- `use_uros`: Usar comunicación micro-ROS si es verdadero (default: `true`)
+  - Valores aceptados: `true`, `false`
+- `lidar_model`: Modelo del LiDAR (default: `LDROBOT-LD19`)
+  - Valores aceptados: `YDLIDAR-X4`, `XIAOMI-LDS02RR`, `YDLIDAR-X2-X2L`, `3IROBOTIX-DELTA-2G`, `YDLIDAR-X3-PRO`, `YDLIDAR-X3`, `NEATO-XV11`, `SLAMTEC-RPLIDAR-A1`, `3IROBOTIX-DELTA-2A`, `3IROBOTIX-DELTA-2B`, `LDROBOT-LD14P`, `LDROBOT-LD19`, `CAMSENSE-X1`, `YDLIDAR-SCL`
+- `robot_ip`: Dirección IP del robot para comunicación micro-ROS (default: `192.168.18.16`)
+- `microros_port`: Puerto UDP para el agente micro-ROS (default: `8888`)
+
+### `inspect_urdf.launch.py`
+Publica el URDF del robot y lo visualiza en RViz. Opcionalmente, puede iniciar nodos para las articulaciones.
+
+**Argumentos:**
+- `robot_model`: Nombre del paquete de descripción del robot (default: vacío, usa configuración)
+- `joints`: Control de articulaciones (default: `gui`)
+  - Valores aceptados: `gui`, `nogui`, `none`
+
+### `cartographer.launch.py`
+Lanza Cartographer para mapeo SLAM con el robot, también publica el mapa de ocupación. El resultado del mapeo se visualiza en RViz.
+
+**Argumentos:**
+- `robot_model`: Nombre del paquete de descripción del robot (default: vacío, usa configuración)
+- `configuration_basename`: Nombre del archivo de configuración Lua para Cartographer (default: `cartographer_lds_2d.lua`)
+- `use_sim_time`: Usar reloj de simulación (Gazebo) si es verdadero (default: `false`)
+  - Valores aceptados: `true`, `false`
+- `resolution`: Resolución de una celda de la cuadrícula en el mapa de ocupación publicado (default: `0.05`)
+- `publish_period_sec`: Período de publicación del mapa de ocupación (default: `1.0`)
+
+### `navigation.launch.py`
+Lanza Nav2 para navegación autónoma con o sin SLAM, utilizando un mapa existente o creando uno nuevo. Adicionalmente, utiliza RViz para monitorear y controlar el robot.
+
+**Argumentos:**
+- `robot_model`: Nombre del paquete de descripción del robot (default: vacío, usa configuración)
+- `map`: Ruta completa a un archivo de mapa existente (default: `<kalman_bringup>/map/mapa_kalman.yaml`)
+- `use_sim_time`: Usar reloj de simulación (Gazebo) si es verdadero (default: `false`)
+  - Valores aceptados: `true`, `false`
+- `slam`: Navegar mientras se crea un nuevo mapa (default: `False`)
+  - Valores aceptados: `True`, `False`
+
+### `occupancy_grid.launch.py`
+Publica el mapa de ocupación desde Cartographer.
+
+**Argumentos:**
+- `resolution`: Resolución de una celda de la cuadrícula en el mapa de ocupación publicado (default: `0.05`)
+- `publish_period_sec`: Período de publicación del mapa de ocupación (default: `1.0`)
+- `use_sim_time`: Usar reloj de simulación (Gazebo) si es verdadero (default: `false`)
+
+### `monitor_robot.launch.py`
+Lanza RViz2 para monitorear el robot.
+
+**Argumentos:**
+- `robot_model`: Nombre del paquete de descripción del robot (default: vacío, usa configuración)
+- `use_sim_time`: Usar reloj de simulación (Gazebo) si es verdadero (default: `false`)
+
+### `explore.launch.py`
+Lanza el nodo de exploración autónoma (explore_lite).
+
+**Argumentos:**
+- `use_sim_time`: Usar reloj de simulación/Gazebo (default: `true`)
+- `namespace`: Espacio de nombres para el nodo de exploración (default: vacío)
 
 ## Uso 
 
