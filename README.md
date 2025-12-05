@@ -5,14 +5,15 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 <img src="images/perfil.jpeg" alt="isométrica" width="512" />
 
 - [Kit-Kalman-ROS2](#kit-kalman-ros2)
-  - [Paquetes ROS2 para el Kit Kalman de Kalman Robotics](#paquetes-ros2-para-el-kit-kalman-de-kalman-robotics)
+  - [Paquetes ROS2 del Kit Kalman de Kalman Robotics](#paquetes-ros2-del-kit-kalman-de-kalman-robotics)
   - [Requisitos](#requisitos)
     - [Software](#software)
     - [Hardware](#hardware)
-  - [Instalación y compilación](#instalación-y-compilación)
-  - [Uso de los paquetes ROS2 para el robot](#uso-de-los-paquetes-ros2-para-el-robot)
+  - [Clonación, instalación de dependencias y compilación](#clonación-instalación-de-dependencias-y-compilación)
+  - [Uso general de los paquetes ROS2 para el robot](#uso-general-de-los-paquetes-ros2-para-el-robot)
     - [1. Ejecutar el agente de micro-ROS](#1-ejecutar-el-agente-de-micro-ros)
     - [2. Lanzamiento inicial del robot](#2-lanzamiento-inicial-del-robot)
+    - [- Teleoperación](#--teleoperación)
     - [-  IMU](#---imu)
     - [- Mapeo](#--mapeo)
     - [- Navegación autónoma](#--navegación-autónoma)
@@ -20,7 +21,7 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
   - [Uso del repositorio para modificaciones del robot](#uso-del-repositorio-para-modificaciones-del-robot)
   - [Agradecimientos especiales](#agradecimientos-especiales)
 
-## Paquetes ROS2 para el Kit Kalman de Kalman Robotics
+## Paquetes ROS2 del Kit Kalman de [Kalman Robotics](https://kalmanrobotics.io/)
 - **kalman**: meta-paquete que agrupa todos los paquetes relacionados con el Kit Kalman.
 - **kalman_bringup**: paquete multifuncional de lanzamiento para iniciar el robot con diversas configuraciones.
 - **kalman_description**: contiene la descripción URDF del robot Kalman.
@@ -42,7 +43,7 @@ Paquetes ROS2 para el Kit Kalman de Kalman Robotics.
 ### Hardware
 1. **Kit Kalman** - [Cargar firmware](https://github.com/Kalman-Robotics/kit-kalman-firmware)
 
-## Instalación y compilación
+## Clonación, instalación de dependencias y compilación
 
 <details>
 <summary>1. Clonación del repositorio y submódulos</summary>
@@ -79,7 +80,9 @@ source install/setup.bash
 ```
 </details>
 
-## Uso de los paquetes ROS2 para el robot
+## Uso general de los paquetes ROS2 para el robot
+
+> [!NOTE] Para ver más información de los archivos launch y sus argumentos, consultar el README de cada paquete de este proyecto.
 
 ### 1. Ejecutar el agente de micro-ROS
 Ejecutamos el agente de micro-ROS en la computadora para establecer la comunicación con el robot, de esta manera podremos interactuar con los tópicos publicados por el robot.
@@ -93,6 +96,13 @@ Este launch file inicia los nodos de telemetría y publica el estado del robot e
 ```
 ros2 launch kalman_bringup kalman_bringup.launch.py lidar_model:=LDROBOT-LD19 use_sim_time:=false use_rviz:=true use_uros:=false
 ```
+
+### - Teleoperación
+Este ejecutable permite controlar el robot mediante el teclado considerando los límites de velocidad del robot:
+```
+ros2 run kalman_teleop teleop_keyboard
+```
+Sin embargo, podría utilizar otros paquetes de teleoperación como `teleop_twist_keyboard` o `joy` para control mediante joystick.
 
 ### -  IMU
 Este launch file inicia el nodo de procesamiento del IMU, incluyendo una autocalibración:
@@ -124,11 +134,18 @@ ros2 launch kalman_bringup navigation.launch.py use_sim_time:=false robot_model:
 
 ## Demo de navegación autónoma
 
+En este 1er video el robot se localiza en un mapa preexistente y mediante RVIZ se le asigna un punto objetivo al que debe llegar. Posteriormente este visualizador muestra en tiempo real la planificación de la ruta que el robot debe seguir para llegar al objetivo evitando obstáculos.
 
-https://github.com/user-attachments/assets/27162948-e6a4-496f-940a-d97bb359d9fe
+<video controls style="width:66%;" src="https://github.com/user-attachments/assets/27162948-e6a4-496f-940a-d97bb359d9fe">
+  Tu navegador no soporta el elemento <code>video</code>.
+</video>
 
-https://github.com/user-attachments/assets/a1f37ff9-4a41-4fec-8ec5-0f23e93b9023
+En este 2do video se observa al robot real navegando de forma autónoma hacia el objetivo previamente asignado en el mapa. 
 
+<video controls style="width:33%;" src="https://github.com/user-attachments/assets/a1f37ff9-4a41-4fec-8ec5-0f23e93b9023">
+  Tu navegador no soporta el elemento <code>video</code>.
+</video>
+</details>
 
 ---
 
