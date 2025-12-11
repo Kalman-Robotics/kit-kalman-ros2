@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <sdf version='1.4'>
-  <model name='kalman_poster'>
+  <model name='kalman_tapete_ciudad'>
     <link name="link">
       <visual name="visual">
         <geometry>
           <box>
-            <size>0.03 0.9782 1</size>
+            <size>2.5 2.5 0.005</size>
           </box>
         </geometry>
         <material>
           <script>
-            <uri>model://kalman_poster/material/script</uri>
-            <uri>model://kalman_poster/material/textures</uri>
-            <name>Custom/kalman_poster</name>
+            <uri>model://kalman_tapete_ciudad/material/script</uri>
+            <uri>model://kalman_tapete_ciudad/material/textures</uri>
+            <name>Custom/kalman_tapete_ciudad</name>
           </script>
         </material>
       </visual>
