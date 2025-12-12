@@ -59,7 +59,7 @@ public:
   {
     this->declare_parameter("lidar.model", std::vector<std::string>({"YDLIDAR-X4", "LDROBOT-LD19"}));
     this->declare_parameter("lidar.angle_offset_deg", std::vector<double>({0.0, 0.0}));
-    this->declare_parameter("lidar.clockwise", std::vector<bool>({true, true}));
+    this->declare_parameter("lidar.clockwise", std::vector<bool>({true, false}));
     this->declare_parameter("lidar.pub_scan_size", std::vector<int>({720, 360}));
     this->declare_parameter("lidar.range_min_meters", std::vector<double>({0.15, 0.15}));
     this->declare_parameter("lidar.range_max_meters", std::vector<double>({12.0, 6.0}));

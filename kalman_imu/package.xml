@@ -3,7 +3,7 @@
 <package format="3">
   <name>kalman_imu</name>
   <version>0.0.0</version>
-  <description>ROS2 package for Robotics Kalman Kit. Utils</description>
+  <description>ROS2 package for Robotics Kalman Kit. IMU</description>
   <maintainer email="alaurao@uni.pe">oem</maintainer>
   <license>TODO: License declaration</license>
 

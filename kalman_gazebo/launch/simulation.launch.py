@@ -91,7 +91,10 @@ def make_nodes(context: LaunchContext, robot_model, use_sim_time, x_pose, y_pose
                 '-timeout', '180',
                 '-x', x_pose_str,
                 '-y', y_pose_str,
-                '-z', '0.01'
+                '-z', '0.01',
+                '-R', '0.0',
+                '-P', '0.0',
+                '-Y', '1.57079632679',
             ],
             output='screen'
         )

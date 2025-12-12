@@ -91,36 +91,36 @@
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
     <state world_name='default'>
-      <sim_time>1498 421000000</sim_time>
-      <real_time>1545 456275301</real_time>
-      <wall_time>1765468791 88282832</wall_time>
-      <iterations>1264448</iterations>
+      <sim_time>1769 330000000</sim_time>
+      <real_time>787 788977556</real_time>
+      <wall_time>1765482907 792840607</wall_time>
+      <iterations>270909</iterations>
       <model name='Racoon'>
-        <pose>-0.130373 0.372871 -0.00052 -0.005617 -0.00406 -6e-06</pose>
+        <pose>-0.415384 0.099438 -0.000552 -0.005803 -0.005146 -0.006021</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-0.130373 0.372871 -0.00052 -0.005617 -0.00406 -6e-06</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
+          <pose>-0.415384 0.099438 -0.000552 -0.005803 -0.005146 -0.006021</pose>
+          <velocity>0 0 0.009974 9.3e-05 -0.000896 0</velocity>
+          <acceleration>0.000131 -0.000868 19.8196 -1.57234 -0.236509 1.2e-05</acceleration>
+          <wrench>0.000131 -0.000868 19.8196 0 -0 0</wrench>
         </link>
       </model>
       <model name='Squirrel'>
-        <pose>-1.50381 -1.29608 -7.4e-05 -0.002133 -0.004121 5e-06</pose>
+        <pose>-1.36742 -1.20353 -7.5e-05 -0.002133 -0.004121 5e-06</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-1.50381 -1.29608 -7.4e-05 -0.002133 -0.004121 5e-06</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
+          <pose>-1.36742 -1.20353 -7.5e-05 -0.002133 -0.004121 5e-06</pose>
+          <velocity>-0 -0 -0.00124 -1.7e-05 7e-06 -0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Squirrel_0'>
-        <pose>-1.36132 0.290324 -7.4e-05 -0.002133 -0.004121 0</pose>
+        <pose>-1.36132 0.061532 -8.3e-05 -0.002133 -0.004121 0</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-1.36132 0.290324 -7.4e-05 -0.002133 -0.004121 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
+          <pose>-1.36132 0.061532 -8.3e-05 -0.002133 -0.004121 0</pose>
+          <velocity>0 0 -0.009613 2.2e-05 -9e-06 -0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
@@ -136,53 +136,53 @@
         </link>
       </model>
       <model name='kalman_edificio'>
-        <pose>-1.91894 -0.999618 0.099 0 -0 0</pose>
+        <pose>-1.75873 -0.999868 0.099 0 -0 -0.003254</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.91894 -0.999618 0.099 0 -0 0</pose>
+          <pose>-1.75873 -0.999868 0.099 0 -0 -0.003254</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_0'>
-        <pose>-1.69545 -1.00127 0.099 0 -0 0</pose>
+        <pose>-1.5593 -1.00118 0.099 0 0 -0.003276</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.69545 -1.00127 0.099 0 -0 0</pose>
+          <pose>-1.5593 -1.00118 0.099 0 0 -0.003276</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
+          <acceleration>-0 0 0 -0 -0 -0</acceleration>
+          <wrench>-0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_1'>
-        <pose>-1.46503 -1.00276 0.099 0 -0 0</pose>
+        <pose>-1.35987 -1.00319 0.099 -0 -0 -0.003325</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.46503 -1.00276 0.099 0 -0 0</pose>
+          <pose>-1.35987 -1.00319 0.099 -0 -0 -0.003325</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
+          <acceleration>-0 0 -0 -0 -0 -0</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_10'>
-        <pose>-1.98425 -1.30262 0.099 0 -0 0</pose>
+        <pose>-1.77103 -1.21133 0.099 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.98425 -1.30262 0.099 0 -0 0</pose>
+          <pose>-1.77103 -1.21133 0.099 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0 -0 -0 0 -0 0</acceleration>
           <wrench>-0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_12'>
-        <pose>-1.75629 0.261967 0.099 0 -0 0</pose>
+        <pose>-1.7405 -0.379601 0.099 0 -0 0.001007</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.75629 0.261967 0.099 0 -0 0</pose>
+          <pose>-1.7405 -0.379601 0.099 0 -0 0.001007</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
+          <acceleration>-2e-06 -5e-06 1.3e-05 4.9e-05 -2e-05 -1e-06</acceleration>
+          <wrench>-4e-06 -1e-05 2.6e-05 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_12_clone'>
@@ -191,162 +191,152 @@
         <link name='link'>
           <pose>-1.74118 0.036452 0.099 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='kalman_edificio_12_clone_0'>
-        <pose>-1.75 -0.19768 0.099 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-1.75 -0.19768 0.099 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='kalman_edificio_12_clone_1'>
-        <pose>-1.48722 -0.297397 0.099 0 -0 0</pose>
+      <model name='kalman_edificio_12_clone_0'>
+        <pose>-1.72625 -0.180352 0.099 0 -0 0.002305</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.48722 -0.297397 0.099 0 -0 0</pose>
+          <pose>-1.72625 -0.180352 0.099 0 -0 0.002305</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>7e-06 1e-05 -2.1e-05 -0.0001 7.2e-05 0</acceleration>
+          <wrench>1.4e-05 2e-05 -4.2e-05 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_12_clone_1'>
+        <pose>-1.5414 -0.393369 0.099 0 -0 0.000686</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-1.5414 -0.393369 0.099 0 -0 0.000686</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>1e-06 -6e-06 1.4e-05 5.6e-05 6e-06 -2e-06</acceleration>
+          <wrench>1e-06 -1.2e-05 2.7e-05 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_12_clone_2'>
+        <pose>-1.34217 -0.376745 0.099 0 -0 0.000672</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-1.34217 -0.376745 0.099 0 -0 0.000672</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 -0 0 0 -0 0</acceleration>
+          <wrench>0 -0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_12_clone_3'>
+        <pose>-0.886027 0.0865 0.099 0 -0 0.0031</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-0.886027 0.0865 0.099 0 -0 0.0031</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0.000167 0.000256 0.000221 -0.002677 0.001982 -0.000166</acceleration>
+          <wrench>0.000334 0.000512 0.000442 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_12_clone_4'>
+        <pose>-0.437006 -0.564046 0.099 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-0.437006 -0.564046 0.099 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0 -0 -0 0 -0 0</acceleration>
           <wrench>-0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='kalman_edificio_12_clone_2'>
-        <pose>-1.24465 -0.295559 0.099 0 -0 0</pose>
+      <model name='kalman_edificio_12_clone_5'>
+        <pose>-0.444917 -0.355635 0.099 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-1.24465 -0.295559 0.099 0 -0 0</pose>
+          <pose>-0.444917 -0.355635 0.099 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 -0 -0 0 -0 0</acceleration>
           <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='kalman_edificio_12_clone_3'>
-        <pose>-0.69146 0.257799 0.099 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.69146 0.257799 0.099 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='kalman_edificio_12_clone_4'>
-        <pose>-0.134365 -0.615927 0.099 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.134365 -0.615927 0.099 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='kalman_edificio_12_clone_5'>
-        <pose>-0.128731 -0.388658 0.099 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.128731 -0.388658 0.099 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
       <model name='kalman_edificio_12_clone_6'>
-        <pose>-0.131882 -0.152471 0.099 0 -0 0</pose>
+        <pose>-0.439251 -0.154091 0.099 0 -0 0.001121</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.131882 -0.152471 0.099 0 -0 0</pose>
+          <pose>-0.439251 -0.154091 0.099 0 -0 0.001121</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -0 -0 0 -0 0</acceleration>
-          <wrench>-0 -0 -0 0 -0 0</wrench>
+          <acceleration>0 -0 -0 0 -0 0</acceleration>
+          <wrench>0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_2'>
-        <pose>-0.900608 -0.949354 0.099 -0 -0 -0.000333</pose>
+        <pose>-0.900582 -1.03661 0.099 0 0 -0.000802</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.900608 -0.949354 0.099 -0 -0 -0.000333</pose>
+          <pose>-0.900582 -1.03661 0.099 0 0 -0.000802</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 0 -0 -0 -0</acceleration>
-          <wrench>-0 0 0 0 -0 0</wrench>
+          <acceleration>-1e-06 -0 0 3e-06 -1e-05 0</acceleration>
+          <wrench>-2e-06 -1e-06 1e-06 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_3'>
-        <pose>-0.683617 -0.936944 0.099 0 0 -0.004353</pose>
+        <pose>-0.683905 -1.04214 0.099 0 0 -0.003459</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.683617 -0.936944 0.099 0 0 -0.004353</pose>
+          <pose>-0.683905 -1.04214 0.099 0 0 -0.003459</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 0 0 -0 0</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>0.000564 -0.000337 0.000237 0.003368 0.005899 -3.5e-05</acceleration>
+          <wrench>0.001127 -0.000675 0.000473 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_4'>
-        <pose>-0.90539 -1.22335 0.099 0 -0 0</pose>
+        <pose>-0.905453 -1.23575 0.099 0 0 -0.00079</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.90539 -1.22335 0.099 0 -0 0</pose>
+          <pose>-0.905453 -1.23575 0.099 0 0 -0.00079</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>1e-06 -0 -0 3e-06 9e-06 -0</acceleration>
+          <wrench>3e-06 -1e-06 -1e-06 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_5'>
-        <pose>-0.68847 -1.21401 0.099 0 -0 0</pose>
+        <pose>-0.688628 -1.24132 0.099 0 0 -0.003459</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.68847 -1.21401 0.099 0 -0 0</pose>
+          <pose>-0.688628 -1.24132 0.099 0 0 -0.003459</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 -0 0 0 -0 0</acceleration>
-          <wrench>0 -0 0 0 -0 0</wrench>
+          <acceleration>0.001184 -0.000398 -0.000578 0.003924 0.011013 -0.000354</acceleration>
+          <wrench>0.002369 -0.000796 -0.001157 0 -0 0</wrench>
         </link>
       </model>
       <model name='kalman_edificio_6'>
-        <pose>-0.675173 -0.175761 0.099 0 -0 0</pose>
+        <pose>-0.88203 -0.312273 0.099 0 -0 0.003441</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-0.675173 -0.175761 0.099 0 -0 0</pose>
+          <pose>-0.88203 -0.312273 0.099 0 -0 0.003441</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-3e-05 -0.000193 -0.000465 0.001918 -0.000298 7e-06</acceleration>
+          <wrench>-6e-05 -0.000385 -0.00093 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_7'>
+        <pose>-0.889023 -0.112903 0.099 0 -0 0.003273</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-0.889023 -0.112903 0.099 0 -0 0.003273</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-9e-06 -0.000692 0.000411 0.006875 -0.000139 -0.000124</acceleration>
+          <wrench>-1.8e-05 -0.001384 0.000823 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='kalman_edificio_9'>
+        <pose>-0.470473 -1.15194 0.099 0 0 -0.000622</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>-0.470473 -1.15194 0.099 0 0 -0.000622</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>-0 -0 -0 0 -0 0</acceleration>
           <wrench>-0 -0 -0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='kalman_edificio_7'>
-        <pose>-0.680683 0.048798 0.099 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.680683 0.048798 0.099 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='kalman_edificio_8'>
-        <pose>-0.149602 -1.47392 0.099 -0 -0 -0.000613</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.149602 -1.47392 0.099 -0 -0 -0.000613</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 0 -0 -0 -0</acceleration>
-          <wrench>-0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='kalman_edificio_9'>
-        <pose>-0.140212 -1.24657 0.099 -0 -0 -0.000622</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>-0.140212 -1.24657 0.099 -0 -0 -0.000622</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 0 0 -0 -0 -0</acceleration>
-          <wrench>-0 0 0 0 -0 0</wrench>
-        </link>
-      </model>
       <model name='kalman_laboratorio'>
-        <pose>-1.09857 -0.535042 0 0 -0 0</pose>
+        <pose>-1.09857 -0.53504 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_11'>
           <pose>-1.09857 -1.71004 0 0 -0 0</pose>
@@ -389,7 +379,7 @@
     </state>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>-0.635502 -0.271208 5.47939 -0 1.4978 3.12824</pose>
+        <pose>-0.663704 -0.377631 5.48135 -0 1.4978 3.12824</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
@@ -876,63 +866,6 @@
     </model>
     <model name='kalman_edificio_7'>
       <pose>-0.81211 0.048798 0 0 -0 0</pose>
-      <link name='link'>
-        <inertial>
-          <mass>2</mass>
-          <inertia>
-            <ixx>0.0416667</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.0566667</iyy>
-            <iyz>0</iyz>
-            <izz>0.0683333</izz>
-          </inertia>
-          <pose>0 0 0 0 -0 0</pose>
-        </inertial>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>0.2 0.2 0.2</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-              </ode>
-              <torsional>
-                <ode/>
-              </torsional>
-            </friction>
-            <contact>
-              <ode>
-                <kp>1e+07</kp>
-                <kd>1</kd>
-                <min_depth>0.001</min_depth>
-                <max_vel>0.1</max_vel>
-              </ode>
-            </contact>
-            <bounce/>
-          </surface>
-          <max_contacts>10</max_contacts>
-        </collision>
-        <visual name='visual'>
-          <pose>0 0 -0.1 0 -0 0</pose>
-          <geometry>
-            <mesh>
-              <uri>model://kalman_edificio/meshes/kalman_edificio.dae</uri>
-              <scale>0.5 0.5 0.5</scale>
-            </mesh>
-          </geometry>
-        </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-    </model>
-    <model name='kalman_edificio_8'>
-      <pose>-0.149594 -1.59711 0 0 -0 0</pose>
       <link name='link'>
         <inertial>
           <mass>2</mass>

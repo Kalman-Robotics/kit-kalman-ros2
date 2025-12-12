@@ -24,8 +24,7 @@ services:
       - ./kalman_interfaces:/ros2_ws/src/kalman_interfaces
       - ./kalman_telemetry:/ros2_ws/src/kalman_telemetry
       - ./kalman_teleop:/ros2_ws/src/kalman_teleop
-      - ./kalman_utils:/ros2_ws/src/kalman_utils
-      - ./makerspet_mini:/ros2_ws/src/makerspet_mini
+      - ./kalman_imu:/ros2_ws/src/kalman_imu
       - ./README.md:/ros2_ws/README.md       
     networks:
       ros2_network:
