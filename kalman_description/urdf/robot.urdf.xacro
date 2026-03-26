@@ -15,8 +15,8 @@
 
     <!-- Construir robot -->
     <xacro:chassis/>
-    <xacro:wheel prefix="left" reflect="-1"/>
-    <xacro:wheel prefix="right" reflect="1"/>
+    <xacro:wheel prefix="left" reflect="1"/>
+    <xacro:wheel prefix="right" reflect="-1"/>
 
     <xacro:caster_wheel index="1">
         <origin xyz="${caster_x_offset} ${caster_y_offset} ${caster_z_offset}" rpy="0 0 0"/>
