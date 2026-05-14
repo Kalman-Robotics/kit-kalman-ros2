@@ -1,0 +1,14 @@
+material kalman_lab/Melamina
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture textura_melamina.png
+        scale 1.0 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+  <model name="kalman_lab_box">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 0.06 0 0 0</pose>
+        <geometry>
+          <box><size>0.08 0.08 0.12</size></box>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <pose>0 0 0.06 0 0 0</pose>
+        <geometry>
+          <box><size>0.08 0.08 0.12</size></box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://kalman_lab_box/materials/scripts</uri>
+            <uri>model://kalman_lab_box/materials/textures</uri>
+            <name>kalman_lab/Melamina</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

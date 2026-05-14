@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+  Interior del lab: 1.45 m (X) × 1.55 m (Y)
+  Paredes: 0.02 m espesor, 0.30 m altura, melamina
+  Suelo:   textura posicion_cajas (temporal)
+
+  Coordenadas de referencia de cada pared (centro geométrico):
+    Norte  (Y+): (0,  0.785, 0.15)  size (1.49, 0.02, 0.30)
+    Sur    (Y-): (0, -0.785, 0.15)  size (1.49, 0.02, 0.30)
+    Este   (X+): (0.735, 0, 0.15)   size (0.02, 1.55, 0.30)
+    Oeste  (X-): (-0.735, 0, 0.15)  size (0.02, 1.55, 0.30)
+-->
+<sdf version="1.6">
+  <model name="kalman_lab_recinto">
+    <static>true</static>
+    <link name="link">
+
+      <!-- ── SUELO ─────────────────────────────────────────────── -->
+      <collision name="col_suelo">
+        <pose>0 0 0.0005 0 0 0</pose>
+        <geometry><box><size>1.45 1.55 0.001</size></box></geometry>
+      </collision>
+      <visual name="vis_suelo">
+        <pose>0 0 0.0005 0 0 0</pose>
+        <geometry><box><size>1.45 1.55 0.001</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_recinto/materials/scripts</uri>
+          <uri>model://kalman_lab_recinto/materials/textures</uri>
+          <name>kalman_lab/Suelo</name>
+        </script></material>
+      </visual>
+
+      <!-- ── PARED NORTE (Y+) ──────────────────────────────────── -->
+      <collision name="col_norte">
+        <pose>0 0.785 0.15 0 0 0</pose>
+        <geometry><box><size>1.49 0.02 0.30</size></box></geometry>
+      </collision>
+      <visual name="vis_norte">
+        <pose>0 0.785 0.15 0 0 0</pose>
+        <geometry><box><size>1.49 0.02 0.30</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_recinto/materials/scripts</uri>
+          <uri>model://kalman_lab_recinto/materials/textures</uri>
+          <name>kalman_lab/Pared</name>
+        </script></material>
+      </visual>
+
+      <!-- ── PARED SUR (Y-) ────────────────────────────────────── -->
+      <collision name="col_sur">
+        <pose>0 -0.785 0.15 0 0 0</pose>
+        <geometry><box><size>1.49 0.02 0.30</size></box></geometry>
+      </collision>
+      <visual name="vis_sur">
+        <pose>0 -0.785 0.15 0 0 0</pose>
+        <geometry><box><size>1.49 0.02 0.30</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_recinto/materials/scripts</uri>
+          <uri>model://kalman_lab_recinto/materials/textures</uri>
+          <name>kalman_lab/Pared</name>
+        </script></material>
+      </visual>
+
+      <!-- ── PARED ESTE (X+) ───────────────────────────────────── -->
+      <collision name="col_este">
+        <pose>0.735 0 0.15 0 0 0</pose>
+        <geometry><box><size>0.02 1.55 0.30</size></box></geometry>
+      </collision>
+      <visual name="vis_este">
+        <pose>0.735 0 0.15 0 0 0</pose>
+        <geometry><box><size>0.02 1.55 0.30</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_recinto/materials/scripts</uri>
+          <uri>model://kalman_lab_recinto/materials/textures</uri>
+          <name>kalman_lab/Pared</name>
+        </script></material>
+      </visual>
+
+      <!-- ── PARED OESTE (X-) ──────────────────────────────────── -->
+      <collision name="col_oeste">
+        <pose>-0.735 0 0.15 0 0 0</pose>
+        <geometry><box><size>0.02 1.55 0.30</size></box></geometry>
+      </collision>
+      <visual name="vis_oeste">
+        <pose>-0.735 0 0.15 0 0 0</pose>
+        <geometry><box><size>0.02 1.55 0.30</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_recinto/materials/scripts</uri>
+          <uri>model://kalman_lab_recinto/materials/textures</uri>
+          <name>kalman_lab/Pared</name>
+        </script></material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>

@@ -31,7 +31,7 @@ Lanza el nodo de evitación de obstáculos simple para Gazebo. Se suscribe a Las
 ## Uso
 Para lanzar la simulación de Gazebo con el robot Kalman, use el siguiente comando:
 ```
-ros2 launch kalman_gazebo simulation.launch.py robot_model:=kalman_description
+ros2 launch kalman_gazebo simulation.launch.py robot_model:=kalman_description world:=laboratorio_real.world
 ```
 
 ## Aplicaciones

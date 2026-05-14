@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+  Planta (vista superior) — cada celda = 8x8 cm
+    X X
+    X .
+-->
+<sdf version="1.6">
+  <model name="kalman_edificio_D">
+    <static>true</static>
+    <link name="link">
+
+      <collision name="col_0"><pose>-0.04  0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+      </collision>
+      <visual name="vis_0"><pose>-0.04  0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_box/materials/scripts</uri>
+          <uri>model://kalman_lab_box/materials/textures</uri>
+          <name>kalman_lab/Melamina</name>
+        </script></material>
+      </visual>
+
+      <collision name="col_1"><pose> 0.04  0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+      </collision>
+      <visual name="vis_1"><pose> 0.04  0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_box/materials/scripts</uri>
+          <uri>model://kalman_lab_box/materials/textures</uri>
+          <name>kalman_lab/Melamina</name>
+        </script></material>
+      </visual>
+
+      <collision name="col_2"><pose>-0.04 -0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+      </collision>
+      <visual name="vis_2"><pose>-0.04 -0.04 0.06 0 0 0</pose>
+        <geometry><box><size>0.08 0.08 0.12</size></box></geometry>
+        <material><script>
+          <uri>model://kalman_lab_box/materials/scripts</uri>
+          <uri>model://kalman_lab_box/materials/textures</uri>
+          <name>kalman_lab/Melamina</name>
+        </script></material>
+      </visual>
+
+    </link>
+  </model>
+</sdf>

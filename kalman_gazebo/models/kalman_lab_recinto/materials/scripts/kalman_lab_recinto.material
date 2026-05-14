@@ -1,0 +1,29 @@
+material kalman_lab/Pared
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture textura_melamina.png
+        scale 0.5 0.5
+      }
+    }
+  }
+}
+
+material kalman_lab/Suelo
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture textura_laboratorio.png
+        scale 1.0 1.0
+      }
+    }
+  }
+}

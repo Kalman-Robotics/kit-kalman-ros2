@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+  Laboratorio real del Kit-Kalman
+  Interior: 145 x 155 cm  |  Paredes: melamina 2 cm / 30 cm
+  Edificios: 4 arreglos de cajas MDF 8x8x12 cm (posicionados manualmente)
+
+  Arreglos disponibles:
+    kalman_edificio_A  —  L (col. izq. + esq. inf. der.)  — 3 cajas
+    kalman_edificio_B  —  cuadrado 2x2                    — 4 cajas
+    kalman_edificio_C  —  L (fila sup. + esq. inf. der.)  — 3 cajas
+    kalman_edificio_D  —  L (col. der. + esq. sup. izq.)  — 3 cajas
+
+  Flujo de uso:
+    1. Lanzar: ros2 launch kalman_gazebo simulation.launch.py world:=laboratorio_real
+    2. Ajustar poses de los edificios con el panel de Gazebo (Model > Edit)
+    3. Capturar poses con: gz model --info -m kalman_edificio_A
+    4. Poses capturadas y fijadas el 2026-05-14
+    5. Cambiar suelo a textura_laboratorio cuando el layout esté fijo
+-->
+<sdf version="1.6">
+  <world name="laboratorio_real">
+
+    <!-- ── Física ─────────────────────────────────────────────────── -->
+    <physics type="ode">
+      <real_time_update_rate>1000.0</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+    </physics>
+
+    <!-- ── Plugins ────────────────────────────────────────────────── -->
+    <plugin name="gazebo_ros_factory" filename="libgazebo_ros_factory.so"/>
+    <plugin name="gazebo_ros_init"    filename="libgazebo_ros_init.so"/>
+
+    <!-- ── Iluminación ───────────────────────────────────────────── -->
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- ── Suelo de Gazebo (plano de física) ─────────────────────── -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry><plane><normal>0 0 1</normal></plane></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><plane><normal>0 0 1</normal><size>10 10</size></plane></geometry>
+          <material><script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ── Recinto del laboratorio ───────────────────────────────── -->
+    <include>
+      <uri>model://kalman_lab_recinto</uri>
+      <name>kalman_lab_recinto</name>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- ── Edificios (poses placeholder — ajustar manualmente) ───── -->
+    <!--
+      Cuadrante superior-izquierdo  → X-, Y+
+      Cuadrante superior-derecho   → X+, Y+
+      Cuadrante inferior-izquierdo → X-, Y-
+      Cuadrante inferior-derecho   → X+, Y-
+    -->
+
+    <include>
+      <uri>model://kalman_edificio_A</uri>
+      <name>kalman_edificio_A</name>
+      <pose>0.255388 0.284444 0 0 0 -1.5708</pose>
+    </include>
+
+    <include>
+      <uri>model://kalman_edificio_B</uri>
+      <name>kalman_edificio_B</name>
+      <pose>0.255112 -0.303523 0 0 0 -1.5708</pose>
+    </include>
+
+    <include>
+      <uri>model://kalman_edificio_C</uri>
+      <name>kalman_edificio_C</name>
+      <pose>-0.284461 0.285943 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://kalman_edificio_D</uri>
+      <name>kalman_edificio_D</name>
+      <pose>-0.290682 -0.313646 0 0 0 1.56789</pose>
+    </include>
+
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-0.003514 -0.180003 2.74018 0 1.5698 0.000197</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+
+  </world>
+</sdf>

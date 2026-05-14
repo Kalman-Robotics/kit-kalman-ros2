@@ -118,12 +118,12 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             name='x_pose',
-            default_value='-2.0',
+            default_value='0.0',
             description='Robot starting x position'
         ),
         DeclareLaunchArgument(
             name='y_pose',
-            default_value='-0.5',
+            default_value='0.0',
             description='Robot starting y position'
         ),
         DeclareLaunchArgument(
