@@ -339,6 +339,7 @@ private:
     range_min_meters_ = range_min_meters[model_idx];
     range_max_meters_ = range_max_meters[model_idx];
     ranges_.resize(pub_scan_size_);
+    prev_range_0_ = std::numeric_limits<float>::infinity();
     publish_intensity_ = publish_intensity[model_idx];
     intensities_.resize(pub_scan_size_);
 
@@ -437,7 +438,7 @@ private:
     angle_deg = angle_deg < 0 ? angle_deg + 360 : angle_deg;
 
     double laser_scan_angle_increment = 360.0 / pub_scan_size_;
-    int idx = (int)round(angle_deg / laser_scan_angle_increment) % pub_scan_size_;
+    int idx = ((int)round(angle_deg / laser_scan_angle_increment)) % pub_scan_size_;
 
     if (idx >= 0 && idx < ((long int)ranges_.size()))
     {
@@ -480,6 +481,10 @@ private:
     auto laser_scan_msg = sensor_msgs::msg::LaserScan();
     double laser_scan_angle_increment = 360.0 / pub_scan_size_;
 
+    if (std::isinf(ranges_[0]))
+      ranges_[0] = prev_range_0_;
+    prev_range_0_ = ranges_[0];
+
     laser_scan_msg.ranges = ranges_;
     laser_scan_msg.header.stamp = scan_start_stamp_; //pmsg->stamp;
     laser_scan_msg.header.frame_id = this->get_parameter("laser_scan.frame_id").as_string();
@@ -515,6 +520,7 @@ private:
   rclcpp::Publisher<kalman_interfaces::msg::ControlStatus>::SharedPtr control_status_pub_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   std::vector<float> ranges_;
+  float prev_range_0_;
   std::vector<float> intensities_;
   unsigned int seq_last_;
   unsigned int scan_point_count_valid_;
