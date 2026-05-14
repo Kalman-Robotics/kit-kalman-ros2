@@ -340,6 +340,7 @@ private:
     range_max_meters_ = range_max_meters[model_idx];
     ranges_.resize(pub_scan_size_);
     prev_range_0_ = std::numeric_limits<float>::infinity();
+    prev_intensity_0_ = 0.0f;
     publish_intensity_ = publish_intensity[model_idx];
     intensities_.resize(pub_scan_size_);
 
@@ -481,9 +482,12 @@ private:
     auto laser_scan_msg = sensor_msgs::msg::LaserScan();
     double laser_scan_angle_increment = 360.0 / pub_scan_size_;
 
-    if (std::isinf(ranges_[0]))
-      ranges_[0] = prev_range_0_;
-    prev_range_0_ = ranges_[0];
+    if (std::isinf(ranges_[0])) {
+      ranges_[0]      = prev_range_0_;
+      intensities_[0] = prev_intensity_0_;
+    }
+    prev_range_0_     = ranges_[0];
+    prev_intensity_0_ = intensities_[0];
 
     laser_scan_msg.ranges = ranges_;
     laser_scan_msg.header.stamp = scan_start_stamp_; //pmsg->stamp;
@@ -521,6 +525,7 @@ private:
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
   std::vector<float> ranges_;
   float prev_range_0_;
+  float prev_intensity_0_;
   std::vector<float> intensities_;
   unsigned int seq_last_;
   unsigned int scan_point_count_valid_;
