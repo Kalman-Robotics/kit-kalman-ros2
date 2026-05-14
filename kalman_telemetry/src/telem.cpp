@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <functional>
+#include <limits>
 #include <memory>
 #include <string>
 
@@ -436,7 +437,7 @@ private:
     angle_deg = angle_deg < 0 ? angle_deg + 360 : angle_deg;
 
     double laser_scan_angle_increment = 360.0 / pub_scan_size_;
-    int idx = round(angle_deg / laser_scan_angle_increment);
+    int idx = (int)round(angle_deg / laser_scan_angle_increment) % pub_scan_size_;
 
     if (idx >= 0 && idx < ((long int)ranges_.size()))
     {
@@ -448,7 +449,7 @@ private:
 
   void clear_ranges_buffer()
   {
-    std::fill(ranges_.begin(), ranges_.end(), 0);
+    std::fill(ranges_.begin(), ranges_.end(), std::numeric_limits<float>::infinity());
     std::fill(intensities_.begin(), intensities_.end(), 0);
     scan_point_count_valid_ = 0;
     scan_point_count_total_ = 0;
