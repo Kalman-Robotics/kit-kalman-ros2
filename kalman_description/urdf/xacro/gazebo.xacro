@@ -36,10 +36,8 @@
         <gazebo>
             <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
                 <update_rate>30</update_rate>
-                <!-- <left_joint>wheel_left_joint</left_joint>
-                <right_joint>wheel_right_joint</right_joint> -->
-                <left_joint>wheel_right_joint</left_joint>
-                <right_joint>wheel_left_joint</right_joint>                
+                <left_joint>wheel_left_joint</left_joint>
+                <right_joint>wheel_right_joint</right_joint>
                 <wheel_separation>${wheel_separation}</wheel_separation>
                 <wheel_diameter>${wheel_radius * 2}</wheel_diameter>
                 <max_wheel_acceleration>1.0</max_wheel_acceleration>
