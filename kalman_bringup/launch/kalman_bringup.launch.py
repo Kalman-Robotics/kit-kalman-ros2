@@ -80,7 +80,7 @@ def generate_launch_description():
 
     arg_robot_ip = DeclareLaunchArgument(
         'robot_ip',
-        default_value='192.168.18.16',
+        default_value='192.168.4.1',
         description='IP address of the robot for micro-ROS communication'
     )
 
