@@ -18,14 +18,12 @@
 #include <string>
 
 #include "rclcpp/rclcpp.hpp"
-#include "kalman_interfaces/msg/kaiaai_telemetry2.hpp"
+#include "kalman_interfaces/msg/nexus_telemetry.hpp"
 #include "kalman_interfaces/msg/wifi_state.hpp"
 #include "kalman_interfaces/msg/control_status.hpp"
 #include <builtin_interfaces/msg/time.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <sensor_msgs/msg/joint_state.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
-#include <sensor_msgs/msg/battery_state.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
 #include <tf2_msgs/msg/tf_message.hpp>
 #include "tf2_ros/transform_broadcaster.h"
@@ -85,14 +83,10 @@ public:
     this->declare_parameter("odometry.child_frame_id", "base_footprint");
     this->declare_parameter("odometry.topic_name_pub", "odom");
 
-    this->declare_parameter("battery.topic_name_pub", "battery_state");
-    this->declare_parameter("battery.voltage_full", 4.2*6);
-    this->declare_parameter("battery.voltage_empty", 3.7*6);
-
     this->declare_parameter("wifi.topic_name_pub", "wifi_state");
     this->declare_parameter("control_status.topic_name_pub", "control_status");
 
-    telem_sub_ = this->create_subscription<kalman_interfaces::msg::KaiaaiTelemetry2>(
+    telem_sub_ = this->create_subscription<kalman_interfaces::msg::NexusTelemetry>(
       this->get_parameter("telemetry.topic_name_sub").as_string(),
       
       rclcpp::SensorDataQoS(), std::bind(&KalmanTelemetry::topic_callback, this, _1));
@@ -102,8 +96,6 @@ public:
       this->get_parameter("joints.topic_name_pub").as_string(), 10);
     laser_scan_pub_ = this->create_publisher<sensor_msgs::msg::LaserScan>(
       this->get_parameter("laser_scan.topic_name_pub").as_string(), 10);
-    battery_state_pub_ = this->create_publisher<sensor_msgs::msg::BatteryState>(
-      this->get_parameter("battery.topic_name_pub").as_string(), 10);
     wifi_state_pub_ = this->create_publisher<kalman_interfaces::msg::WifiState>(
       this->get_parameter("wifi.topic_name_pub").as_string(), 10);
     control_status_pub_ = this->create_publisher<kalman_interfaces::msg::ControlStatus>(
@@ -138,7 +130,7 @@ public:
   }
 
 private:
-  void topic_callback(const kalman_interfaces::msg::KaiaaiTelemetry2 & telem_msg) // const
+  void topic_callback(const kalman_interfaces::msg::NexusTelemetry & telem_msg) // const
   {
     long int seq_diff = (long int)telem_msg.seq - (long int)seq_last_;
     seq_last_ = telem_msg.seq;
@@ -221,28 +213,6 @@ private:
     wifi_state_msg.stamp = telem_msg.stamp;
     wifi_state_msg.rssi_dbm = telem_msg.wifi_rssi_dbm;
     wifi_state_pub_->publish(wifi_state_msg);
-
-    auto battery_state_msg = sensor_msgs::msg::BatteryState();
-    battery_state_msg.header.stamp = telem_msg.stamp;
-
-    double voltage = telem_msg.battery_mv * 0.001;
-    double voltage_full = this->get_parameter("battery.voltage_full").as_double();
-    double voltage_empty = this->get_parameter("battery.voltage_empty").as_double();
-
-    if (voltage_full <= voltage_empty) {
-      RCLCPP_FATAL(this->get_logger(),
-        "Invalid parameters, battery.voltage_full <= battery.voltage_empty");
-      rclcpp::shutdown();
-    }
-
-    double percentage = (voltage - voltage_empty)/(voltage_full - voltage_empty) * 100;
-    percentage = percentage > 100 ? 100 : percentage;
-    percentage = percentage < 0 ? 0 : percentage;
-
-    battery_state_msg.present = telem_msg.battery_mv > 0;
-    battery_state_msg.voltage = (float) voltage;
-    battery_state_msg.percentage = (float) percentage;
-    battery_state_pub_->publish(battery_state_msg);
 
     // Publish control status
     // auto control_status_msg = kalman_interfaces::msg::ControlStatus();
@@ -356,7 +326,7 @@ private:
     //RCLCPP_INFO(this->get_logger(), "mask_radius_meters_ %lf", mask_radius_meters_);
   }
 
-  void process_lds_data(const kalman_interfaces::msg::KaiaaiTelemetry2 & telem_msg)
+  void process_lds_data(const kalman_interfaces::msg::NexusTelemetry & telem_msg)
   {
     if (plds == NULL)
       return;
@@ -365,7 +335,7 @@ private:
     lds_data_idx_ = 0;
     lds_msg_count_++;
 
-    pmsg = const_cast<kalman_interfaces::msg::KaiaaiTelemetry2 *>(& telem_msg);
+    pmsg = const_cast<kalman_interfaces::msg::NexusTelemetry *>(& telem_msg);
     while (lds_data_idx_ < telem_msg.lds.size()) {
 
       int err = plds->decode_data(this);
@@ -515,11 +485,10 @@ private:
     laser_scan_pub_->publish(laser_scan_msg);
   }
 
-  rclcpp::Subscription<kalman_interfaces::msg::KaiaaiTelemetry2>::SharedPtr telem_sub_;
+  rclcpp::Subscription<kalman_interfaces::msg::NexusTelemetry>::SharedPtr telem_sub_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
   rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_pub_;
   rclcpp::Publisher<sensor_msgs::msg::LaserScan>::SharedPtr laser_scan_pub_;
-  rclcpp::Publisher<sensor_msgs::msg::BatteryState>::SharedPtr battery_state_pub_;
   rclcpp::Publisher<kalman_interfaces::msg::WifiState>::SharedPtr wifi_state_pub_;
   rclcpp::Publisher<kalman_interfaces::msg::ControlStatus>::SharedPtr control_status_pub_;
   std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
@@ -547,7 +516,7 @@ private:
   bool discard_broken_scans_;
   bool publish_intensity_;
 
-  kalman_interfaces::msg::KaiaaiTelemetry2 * pmsg;
+  kalman_interfaces::msg::NexusTelemetry * pmsg;
   builtin_interfaces::msg::Time scan_start_stamp_;
 };
 
