@@ -18,7 +18,9 @@ find_package(yaml-cpp REQUIRED)
 find_package(tf2 REQUIRED)
 
 add_executable(imu_processor src/imu_processor.cpp)
-ament_target_dependencies(imu_processor rclcpp sensor_msgs std_msgs kalman_interfaces tf2)
+# ament_index_cpp debe ir explicito: en Humble llegaba transitivamente via
+# rclcpp, pero Jazzy ya no propaga esos include dirs.
+ament_target_dependencies(imu_processor rclcpp sensor_msgs std_msgs kalman_interfaces tf2 ament_index_cpp)
 target_link_libraries(imu_processor yaml-cpp)
 
 install(TARGETS
