@@ -2,7 +2,19 @@ kalman_telemetry_node:
   ros__parameters:
 
     laser_scan:
-      mask_radius_meters: 0.05
+      mask_radius_meters: 0.10
+      # Sectores bloqueados por las antenas del robot, en pares [inicio, fin]
+      # grados. Ademas del eco directo, las antenas producen reflexiones
+      # especulares (el haz rebota, alcanza la pared y vuelve) que aparecen a
+      # distancias falsas mayores y cambian de angulo segun el entorno, por lo
+      # que mask_radius no basta: hay que descartar el sector completo.
+      # Medidos con el robot quieto y mask_radius=0: dos antenas, con ecos
+      # estables a 3.0-7.5 cm. Se anaden 4 grados de margen a cada lado para
+      # cubrir tambien los rebotes rasantes en el canto de cada antena.
+      # La antena 2 es mas gruesa, por eso lleva mas margen.
+      #   antena 1: 26-50 deg   ->  22-54  (+4 por lado)
+      #   antena 2: 120-135 deg -> 112-143 (+8 por lado)
+      masked_sectors_deg: [22.0, 54.0, 112.0, 143.0]
       topic_name_pub: "scan"
       frame_id: "laser_link"
       discard_broken_scans: true
@@ -13,7 +25,10 @@ kalman_telemetry_node:
       angle_offset_deg: [         0.0,          -180.0,             0.0,             0.0,         0.0,      -180.0,              -180.0,               -90.0,               -90.0,               -90.0,            0.0,          0.0,         16.0,          0.0]
       pub_scan_size:    [         720,             360,             720,             720,         720,         360,                 720,                 360,                 720,                 360,            720,          360,          360,          720]
       clockwise:        [        true,            true,            true,            true,        true,       false,                true,                true,                true,                true,           true,         true,         true,         true]
-      range_min_meters: [        0.15,            0.15,             0.1,            0.12,        0.12,        0.15,                0.15,                0.15,                0.15,                 0.2,            0.1,         0.03,          0.1,         0.12]
+      # LDROBOT-LD19 (indice 11): 0.08 en vez del 0.03 nominal del sensor.
+      # Con 3 cm captaba la estructura del propio robot; 8 cm es el minimo
+      # util real y es coherente con mask_radius_meters.
+      range_min_meters: [        0.15,            0.15,             0.1,            0.12,        0.12,        0.15,                0.15,                0.15,                0.15,                 0.2,            0.1,         0.08,          0.1,         0.12]
       range_max_meters: [        12.0,             6.0,             8.0,             8.0,         8.0,         6.0,                12.0,                 5.0,                 8.0,                 8.0,            8.0,         12.0,          8.0,          8.0]
       intensity:        [       false,           false,           false,           false,       false,       false,               false,               false,               false,               false,          false,         true,        false,         true]
       # 'HLS-LFCD2', 'HLS-LFCD3', 'XIAOMI-LDS01RR', 'LDROBOT-LD20'

@@ -14,6 +14,7 @@
 
 #include <functional>
 #include <limits>
+#include <vector>
 #include <memory>
 #include <string>
 
@@ -70,6 +71,8 @@ public:
     this->declare_parameter("laser_scan.lidar_model", "YDLIDAR-X4");
     this->declare_parameter("laser_scan.mask_radius_meters", 0.0);
     this->declare_parameter("laser_scan.discard_broken_scans", false);
+    // Pares [inicio, fin] en grados; lista vacia = sin sectores bloqueados
+    this->declare_parameter("laser_scan.masked_sectors_deg", std::vector<double>{});
 
     this->declare_parameter("telemetry.topic_name_sub", "telemetry");
 
@@ -110,6 +113,7 @@ public:
     range_min_meters_ = 0.15;
     range_max_meters_ = 12.0;
     mask_radius_meters_ = 0.0;
+    masked_sectors_deg_.clear();
 
     clear_ranges_buffer();
     seq_last_ = 0;
@@ -384,6 +388,25 @@ private:
       angle_deg, distance_mm, quality, intensity, scan_completed);
   }
 
+  // True si el angulo cae dentro de alguno de los sectores bloqueados.
+  // Los sectores se definen en pares [inicio, fin] en grados (0-360) y
+  // admiten cruce por 0 (p.ej. [350, 10] cubre 350..360 y 0..10).
+  bool is_angle_masked(double angle_deg) const
+  {
+    for (size_t i = 0; i + 1 < masked_sectors_deg_.size(); i += 2) {
+      double from = masked_sectors_deg_[i];
+      double to   = masked_sectors_deg_[i + 1];
+      if (from <= to) {
+        if (angle_deg >= from && angle_deg <= to)
+          return true;
+      } else {                       // sector que cruza el 0
+        if (angle_deg >= from || angle_deg <= to)
+          return true;
+      }
+    }
+    return false;
+  }
+
   void process_scan_point(float angle_deg, float distance_mm, float quality, float intensity, bool scan_completed)
   {
     (void)quality; // Suppress unused parameter warning
@@ -409,6 +432,14 @@ private:
     angle_deg = fmod(angle_deg, 360.0);
     angle_deg = angle_deg < 0 ? angle_deg + 360 : angle_deg;
 
+    // Sectores bloqueados: las antenas del robot cruzan el haz y devuelven
+    // tanto ecos directos como reflexiones especulares (el haz rebota en la
+    // antena, llega a la pared y vuelve, dando distancias falsas mayores).
+    // Se descarta el sector completo: perder unos grados es preferible a
+    // publicar obstaculos inexistentes.
+    if (is_angle_masked(angle_deg))
+      return;
+
     double laser_scan_angle_increment = 360.0 / pub_scan_size_;
     int idx = ((int)round(angle_deg / laser_scan_angle_increment)) % pub_scan_size_;
 
@@ -431,6 +462,9 @@ private:
     lds_msg_count_ = 0;
     lds_data_length_ = 0;
     mask_radius_meters_ = this->get_parameter("laser_scan.mask_radius_meters").as_double();
+    // Se relee en cada scan, igual que mask_radius: permite ajustar los
+    // sectores con 'ros2 param set' sin reiniciar el nodo.
+    masked_sectors_deg_ = this->get_parameter("laser_scan.masked_sectors_deg").as_double_array();
   }
 
   void publish_scan()
@@ -513,6 +547,7 @@ private:
   double range_min_meters_;
   double range_max_meters_;
   double mask_radius_meters_;
+  std::vector<double> masked_sectors_deg_;
   bool broken_scan_;
   bool discard_broken_scans_;
   bool publish_intensity_;
